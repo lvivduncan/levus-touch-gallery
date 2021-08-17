@@ -18,6 +18,11 @@ window.addEventListener('resize', setMaxHeightSlider);
 
 
 
+
+
+
+
+
 function setMaxHeightSlider(){
     const maxHeight = Math.max(...[...images].map(image => image.clientHeight));
     slider.style.height = `${maxHeight}px`;
@@ -31,12 +36,11 @@ function setOptionsThumbs(){
 
     thumbs.style.gridTemplateColumns = `repeat(${length * 2},1fr)`;
 
-    // tmp
-    if(length < 4){
+    thumbs.style.width = `${50 * length}%`;
 
-        thumbs.style.width = `${50 * length * 2}%`;
-    } else {
-        
-        thumbs.style.width = `${50 * length}%`;
-    }
+    images.forEach(image => {
+        const clone = image.cloneNode(true);
+        thumbs.append(clone);
+    });
+
 }
