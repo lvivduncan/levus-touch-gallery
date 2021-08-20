@@ -1,9 +1,9 @@
 // TODO: клікабельні тумбіки на десктопі (скрол), на мобільному крапки. велике фото має лайтбокс
+// TODO: add all gallery
 
 {
     const gallery = document.querySelector('.levus-touch-gallery');
 
-    // TODO: add all gallery
     setTimeout(() => {
         
         gallery.classList.add('load');
@@ -14,7 +14,9 @@
     // slides
     let slides = gallery.querySelectorAll('.slide');
 
-    if(slides.length < 6){
+    if(slides.length <= 7){
+
+        // TODO: add for 7 item
         slides.forEach(slide => {
             const clone = slide.cloneNode(true);
             slider.append(clone);
@@ -86,6 +88,7 @@
     }
 
     function setOptionsThumbs(){
+
         // thumbs wrapper
         const thumbs = gallery.querySelector('.thumbs');
         
@@ -97,7 +100,7 @@
         });
 
         // set transition
-        gallery.querySelectorAll('.thumbs img').forEach((image, index, array) => {
+        thumbs.querySelectorAll('img').forEach((image, index, array) => {
 
             array[index].style.transform = `translateX(${elements[index]}%)`;
         });
@@ -167,33 +170,199 @@
     }
 
     function render(){
+
+        // thumbs images
+        const images = gallery.querySelectorAll('.thumbs img');
+
         slides.forEach((slide, index) => {
 
-            // set opacity
+            // set opacity slide img
             slide.style.opacity = 0;
             if(elements[index] === 0){
+
                 slide.style.opacity = 1;
             }
 
             slide.style.transform = `translateX(${elements[index]}%)`;
 
-            // TODO: render thumbs
+            const img = images[index];
+
+            // set opacity for thumbs img
+            img.style.opacity = 0;
+            if(elements[index] >= 0 && elements[index] <= 500){
+
+                img.style.opacity = 1;
+            }
+
+            // render thumbs images
+            img.style.transform = `translateX(${elements[index]}%)`;
         });
     }
+
+    // TODO: render 2 for thumbs + slides (moveItem)
 
     // move item in elements[]
     function moveItem(id){
 
-        // // порівняти різницю між айді та транслейт!
-        for(let i = 1; i < id; i++){
+        // const img = gallery.querySelectorAll('.thumbs img');
+
+        console.log('id: ', id)
+
+        // // // порівняти різницю між айді та транслейт!
+        // for(let i = 1; i < id; i++){
+
+        //     const first = elements.pop();
+        //     elements.unshift(first);
+        // }
+
+        // for(let i = 1; i < id-1; i++){
+        //     const last = elements.shift();
+        //     elements.push(last);
+        // }
+
+        // показано від 1 до 5 items
+
+        const first = elements.pop();
+        if(id === 1){
+            // 
+        }
+        if(id === 2){
             // const last = elements.shift();
             // elements.push(last);
 
-            const first = elements.pop();
             elements.unshift(first);
         }
+        if(id === 3){
+            // const first = elements.pop();
+            elements.unshift(first);
+            elements.unshift(first);
+        }
+        if(id === 4){
+            // const first = elements.pop();
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+        }
+        if(id === 5){
+            // const first = elements.pop();
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+        }
+        if(id === 6){
+            // const first = elements.pop();
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+        }
+        /* if(id === 7){
+            // const first = elements.pop();
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+        }
+        if(id === 8){
+            // const first = elements.pop();
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+        }
+        if(id === 9){
+            // const first = elements.pop();
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+        }
+        if(id === 10){
+            // const first = elements.pop();
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+        }
+        if(id === 11){
+            // const first = elements.pop();
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+        }
+        if(id === 12){
+            // const first = elements.pop();
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+        }
+        if(id === 13){
+            // const first = elements.pop();
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+        }
+        if(id === 14){
+            // const first = elements.pop();
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+            elements.unshift(first);
+        } */
 
-        // re-render slides
+
+
+
+        // // re-render slides
         render();
     }
 
