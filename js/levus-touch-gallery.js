@@ -4,6 +4,9 @@
 {
     const gallery = document.querySelector('.levus-touch-gallery');
 
+            // // thumbs wrapper
+            // const thumbs = gallery.querySelector('.thumbs');
+
     setTimeout(() => {
         
         gallery.classList.add('load');
@@ -27,6 +30,8 @@
 
     const images = gallery.querySelectorAll('img');
 
+    const length = images.length;
+
     // check dragable
     let drag = false;
 
@@ -46,8 +51,16 @@
 
     // fill array 
     slides.forEach((slide, index) => {
-
-        elements.push(index * 100 - 100);
+        
+        // last element -100
+        if(index === slides.length-1){
+            
+            elements.push(- 100);
+            
+        } else {
+            
+            elements.push(index * 100);
+        }
     });
 
     // set maximum height of the slider
@@ -64,23 +77,18 @@
         // disable drag image
         slide.querySelector('img').setAttribute('draggable',false);
 
-        slide.addEventListener('touchstart', scrollStart, false);
-        slide.addEventListener('touchmove', scrollMove, false);
-        slide.addEventListener('touchend', scrollEnd, false);
-
-        // click
-        slide.addEventListener('mousedown', scrollStart, false);
-        slide.addEventListener('mousemove', scrollMove, false);
-        slide.addEventListener('mouseup', scrollEnd, false);
+        slide.addEventListener('pointerdown', scrollStart);
+        slide.addEventListener('pointermove', scrollMove);
+        slide.addEventListener('pointerup', scrollEnd);
+        slide.addEventListener('pointercancel', scrollEnd);
     });
 
     // click to thumbs img
-    document.querySelectorAll('.thumbs img').forEach((image,index) => {
+    gallery.querySelectorAll('.thumbs img').forEach((image,index) => {
         image.addEventListener('click', () => {
-            moveItem(index);
+            clickThumb(index);
         });
     });
-    
 
     function setMaxHeightSlider(){
         const maxHeight = Math.max(...[...images].map(image => image.clientHeight));
@@ -89,7 +97,7 @@
 
     function setOptionsThumbs(){
 
-        // thumbs wrapper
+        // // thumbs wrapper
         const thumbs = gallery.querySelector('.thumbs');
         
         // place thumbs images
@@ -109,15 +117,17 @@
     function scrollStart(event){
         drag = true;
 
-        // where they clicked
-        start = event.pageX || event.touches[0].clientX;
+        // where it was pressed
+        start = event.pageX;
+
+        this.classList.add('grab');
     }
 
     function scrollMove(event){
         if(drag){
 
-            // where they dragged
-            finish = event.pageX || event.touches[0].clientX;
+            // where it was moved
+            finish = event.pageX;
 
             // if to left
             if(finish - start < 0){
@@ -167,12 +177,14 @@
 
         // set null
         flag = false;
+
+        this.classList.remove('grab');
     }
 
     function render(){
 
         // thumbs images
-        const images = gallery.querySelectorAll('.thumbs img');
+        const thumbs = gallery.querySelectorAll('.thumbs img');
 
         slides.forEach((slide, index) => {
 
@@ -184,29 +196,73 @@
             }
 
             slide.style.transform = `translateX(${elements[index]}%)`;
+            // test
+            slide.dataset.id = index;
 
-            const img = images[index];
+            // temp var
+            const thumb = thumbs[index];
 
             // set opacity for thumbs img
-            img.style.opacity = 0;
+            thumb.style.opacity = 0;
             if(elements[index] >= 0 && elements[index] <= 500){
 
-                img.style.opacity = 1;
+                thumb.style.opacity = 1;
             }
+            // test
+            thumb.dataset.id = index;
 
             // render thumbs images
-            img.style.transform = `translateX(${elements[index]}%)`;
+            thumb.style.transform = `translateX(${elements[index]}%)`;
         });
     }
 
-    // TODO: render 2 for thumbs + slides (moveItem)
+    // TODO: render 2 for thumbs + slides (clickThumb)
 
     // move item in elements[]
-    function moveItem(id){
+    function clickThumb(id){
+
+        console.log('id: ', id)
+
+        // const s = gallery.querySelectorAll('.slide');
+        // slides.forEach(slide => slide.style.color = 'red');
+        slides.forEach(slide => {
+            slide.style.transform = 'translateX(0)';
+            slide.style.opacity = 0;
+        });
+
+        slides[id].style.opacity = 1;
+
+        console.log(slides[id])
+
+        // const length = gallery.querySelectorAll('img').length;
+
+        // // test 1
+        // if(id === 1){
+
+        //     const shift = length - 1;
+        //     const crop = elements.splice(0,shift);
+        //     elements.push(...crop);
+
+        //     console.log(elements, shift)
+        // }
+
+        // const shift = length - id;
+        // const crop = elements.splice(0,shift);
+        // elements.push(...crop);
+
+        // console.log(elements, shift, length)
+        
+        // // зміна, якщо клікнуто не на 1 елемент
+        // if(id !== 0){
+
+        //     const crop = elements.splice(0, id-length);
+        //     elements.push(...crop);
+        // }
+
+
 
         // const img = gallery.querySelectorAll('.thumbs img');
 
-        console.log('id: ', id)
 
         // // // порівняти різницю між айді та транслейт!
         // for(let i = 1; i < id; i++){
@@ -220,150 +276,11 @@
         //     elements.push(last);
         // }
 
-        // показано від 1 до 5 items
-
-        const first = elements.pop();
-        if(id === 1){
-            // 
-        }
-        if(id === 2){
-            // const last = elements.shift();
-            // elements.push(last);
-
-            elements.unshift(first);
-        }
-        if(id === 3){
-            // const first = elements.pop();
-            elements.unshift(first);
-            elements.unshift(first);
-        }
-        if(id === 4){
-            // const first = elements.pop();
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-        }
-        if(id === 5){
-            // const first = elements.pop();
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-        }
-        if(id === 6){
-            // const first = elements.pop();
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-        }
-        /* if(id === 7){
-            // const first = elements.pop();
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-        }
-        if(id === 8){
-            // const first = elements.pop();
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-        }
-        if(id === 9){
-            // const first = elements.pop();
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-        }
-        if(id === 10){
-            // const first = elements.pop();
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-        }
-        if(id === 11){
-            // const first = elements.pop();
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-        }
-        if(id === 12){
-            // const first = elements.pop();
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-        }
-        if(id === 13){
-            // const first = elements.pop();
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-        }
-        if(id === 14){
-            // const first = elements.pop();
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-            elements.unshift(first);
-        } */
-
 
 
 
         // // re-render slides
-        render();
+        // render();
     }
 
     // TODO: ширина блоку фіксована для десктопу 

@@ -83,6 +83,7 @@ hr
 {
     position: relative;
     cursor: grab;
+    user-select: none;
 }
 
 .levus-touch-gallery .slides .slide
@@ -93,6 +94,12 @@ hr
     width: 100%;
 
     transition: .5s;
+}
+
+/* change cursor */
+.levus-touch-gallery .slides .slide.grab
+{
+    cursor: grabbing;
 }
 
 .levus-touch-gallery .slides .slide picture
