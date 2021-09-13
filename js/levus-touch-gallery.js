@@ -240,10 +240,10 @@
 
     function clickSlide(event){
 
-        // event.preventDefault();
-        // event.stopPropagation();
-
-        // TODO: click icon -- open slide[id]
-
+        event.preventDefault();   
     }
+
+    // TODO: click icon -- open slide[id]
+    // TODO: animation icon (hide before scroll)
+    
 }
