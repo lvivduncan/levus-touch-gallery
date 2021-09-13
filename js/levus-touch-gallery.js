@@ -161,6 +161,9 @@
             }
 
             this.style.transform = `translateX(${shift}px)`;
+
+            // hide icon
+            icon.classList.add('hide');
         }
     }
 
@@ -188,6 +191,12 @@
         flag = false;
 
         this.classList.remove('grab');
+
+        // show icon
+        setTimeout(() => {
+            
+            icon.classList.remove('hide');
+        }, 240);
     }
 
     function render(){
@@ -245,5 +254,13 @@
 
     // TODO: click icon -- open slide[id]
     // TODO: animation icon (hide before scroll)
-    
+
+    gallery.addEventListener('click', event => {
+
+        if(event.target.classList.contains('icon')){
+
+            console.log('icon click')
+        }
+    })
+
 }
