@@ -4,6 +4,11 @@
 {
     const gallery = document.querySelector('.levus-touch-gallery');
 
+    // insert icon 'view'
+    const icon = document.createElement('div');
+    icon.className = 'icon';
+    gallery.append(icon);
+
     setTimeout(() => {
         
         gallery.classList.add('load');
@@ -44,12 +49,11 @@
     let finish = 0;
 
     // array slides
-    // const elements = [];
     let elements = [];
     
     // fill array 
     slides.forEach((slide, index) => {
-        
+
         // last element -100
         if(index === slides.length-1){
             
@@ -78,11 +82,14 @@
 
         // disable drag image
         slide.querySelector('img').setAttribute('draggable',false);
+        slide.setAttribute('draggable',false);
 
         slide.addEventListener('pointerdown', scrollStart);
         slide.addEventListener('pointermove', scrollMove);
         slide.addEventListener('pointerup', scrollEnd);
         slide.addEventListener('pointercancel', scrollEnd);
+
+        slide.addEventListener('click', clickSlide);
     });
 
     // click to thumbs img
@@ -214,9 +221,7 @@
         });
     }
 
-    // TODO: render 2 for thumbs + slides (clickThumb)
-
-    // move item in elements[]
+    // move item after click
     function clickThumb(id){
 
         // set null
@@ -233,6 +238,12 @@
         render();
     }
 
-    // TODO: ширина блоку фіксована для десктопу 
+    function clickSlide(event){
 
+        // event.preventDefault();
+        // event.stopPropagation();
+
+        // TODO: click icon -- open slide[id]
+
+    }
 }
