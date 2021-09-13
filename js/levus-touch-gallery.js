@@ -4,9 +4,6 @@
 {
     const gallery = document.querySelector('.levus-touch-gallery');
 
-            // // thumbs wrapper
-            // const thumbs = gallery.querySelector('.thumbs');
-
     setTimeout(() => {
         
         gallery.classList.add('load');
@@ -47,21 +44,26 @@
     let finish = 0;
 
     // array slides
-    const elements = [];
-
+    // const elements = [];
+    let elements = [];
+    
     // fill array 
     slides.forEach((slide, index) => {
         
         // last element -100
         if(index === slides.length-1){
             
-            elements.push(- 100);
+            elements.push(-100);
             
         } else {
             
             elements.push(index * 100);
         }
     });
+
+    // clone
+    // const origin = [...elements];
+    const origin = elements.slice(0);
 
     // set maximum height of the slider
     setMaxHeightSlider();
@@ -97,7 +99,7 @@
 
     function setOptionsThumbs(){
 
-        // // thumbs wrapper
+        // thumbs wrapper
         const thumbs = gallery.querySelector('.thumbs');
         
         // place thumbs images
@@ -196,8 +198,6 @@
             }
 
             slide.style.transform = `translateX(${elements[index]}%)`;
-            // test
-            slide.dataset.id = index;
 
             // temp var
             const thumb = thumbs[index];
@@ -208,8 +208,6 @@
 
                 thumb.style.opacity = 1;
             }
-            // test
-            thumb.dataset.id = index;
 
             // render thumbs images
             thumb.style.transform = `translateX(${elements[index]}%)`;
@@ -221,66 +219,18 @@
     // move item in elements[]
     function clickThumb(id){
 
-        console.log('id: ', id)
+        // set null
+        elements.length = 0;
 
-        // const s = gallery.querySelectorAll('.slide');
-        // slides.forEach(slide => slide.style.color = 'red');
-        slides.forEach(slide => {
-            slide.style.transform = 'translateX(0)';
-            slide.style.opacity = 0;
-        });
+        // clone
+        // elements = [...origin];
+        elements = origin.slice(0);
 
-        slides[id].style.opacity = 1;
+        // assign
+        const crop = elements.splice(0,length - id);
+        elements.push(...crop);
 
-        console.log(slides[id])
-
-        // const length = gallery.querySelectorAll('img').length;
-
-        // // test 1
-        // if(id === 1){
-
-        //     const shift = length - 1;
-        //     const crop = elements.splice(0,shift);
-        //     elements.push(...crop);
-
-        //     console.log(elements, shift)
-        // }
-
-        // const shift = length - id;
-        // const crop = elements.splice(0,shift);
-        // elements.push(...crop);
-
-        // console.log(elements, shift, length)
-        
-        // // зміна, якщо клікнуто не на 1 елемент
-        // if(id !== 0){
-
-        //     const crop = elements.splice(0, id-length);
-        //     elements.push(...crop);
-        // }
-
-
-
-        // const img = gallery.querySelectorAll('.thumbs img');
-
-
-        // // // порівняти різницю між айді та транслейт!
-        // for(let i = 1; i < id; i++){
-
-        //     const first = elements.pop();
-        //     elements.unshift(first);
-        // }
-
-        // for(let i = 1; i < id-1; i++){
-        //     const last = elements.shift();
-        //     elements.push(last);
-        // }
-
-
-
-
-        // // re-render slides
-        // render();
+        render();
     }
 
     // TODO: ширина блоку фіксована для десктопу 
