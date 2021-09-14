@@ -81,13 +81,14 @@
     slides.forEach(slide => {
 
         // disable drag image
-        slide.querySelector('img').setAttribute('draggable',false);
+        slide.addEventListener('dragstart', event => event.preventDefault());
         slide.setAttribute('draggable',false);
 
         slide.addEventListener('pointerdown', scrollStart);
         slide.addEventListener('pointermove', scrollMove);
         slide.addEventListener('pointerup', scrollEnd);
         slide.addEventListener('pointercancel', scrollEnd);
+        slide.addEventListener('pointerleave', scrollEnd);
 
         slide.addEventListener('click', clickSlide);
     });
@@ -138,6 +139,8 @@
             // where it was moved
             finish = event.pageX;
 
+            console.log(start, finish)
+
             // if to left
             if(finish - start < 0){
 
@@ -168,35 +171,39 @@
     }
 
     function scrollEnd(){
-        // to right
-        if(finish - start < 0){
-            
-            const first = elements.pop();
-            elements.unshift(first);
-        } 
 
-        // to left
-        if(finish - start > 0) {
-            
-            const last = elements.shift();
-            elements.push(last);
+        if(drag){
+
+            // to right
+            if(finish - start < 0){
+                
+                const first = elements.pop();
+                elements.unshift(first);
+            } 
+
+            // to left
+            if(finish - start > 0) {
+                
+                const last = elements.shift();
+                elements.push(last);
+            }
+
+            render();
+
+            // set null
+            drag = false;
+
+            // set null
+            flag = false;
+
+            this.classList.remove('grab');
+
+            // show icon
+            setTimeout(() => {
+                
+                icon.classList.remove('hide');
+            }, 240);            
         }
-
-        render();
-
-        // set null
-        drag = false;
-
-        // set null
-        flag = false;
-
-        this.classList.remove('grab');
-
-        // show icon
-        setTimeout(() => {
-            
-            icon.classList.remove('hide');
-        }, 240);
     }
 
     function render(){
@@ -264,3 +271,5 @@
     })
 
 }
+
+// TODO: to left, to right drag

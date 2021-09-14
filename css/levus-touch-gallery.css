@@ -106,6 +106,7 @@ hr
 .levus-touch-gallery .slides .slide picture img
 {
     object-fit: cover;
+    pointer-events: none;
 }
 
 /* icon */
