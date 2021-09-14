@@ -25,18 +25,14 @@
 
     if(slides.length <= 7){
 
-        // slides.forEach(slide => {
-        //     const clone = slide.cloneNode(true);
-        //     slider.append(clone);
-        // });
+        for(let slide of slides){
 
-        for(let i of slides){
-
-            const clone = i.cloneNode(true);
+            const clone = slide.cloneNode(true);
             slider.append(clone);
         }
     }
 
+    // get new nodeList
     slides = gallery.querySelectorAll('.slide');
 
     const images = gallery.querySelectorAll('img');
@@ -69,18 +65,18 @@
     let elements = [];
     
     // fill array 
-    slides.forEach((slide, index) => {
+    for(let i = 0; i < length; i++){
 
         // last element -100
-        if(index === slides.length-1){
+        if(i === slides.length-1){
             
             elements.push(-100);
             
         } else {
             
-            elements.push(index * 100);
+            elements.push(i * 100);
         }
-    });
+    }
 
     // clone
     // const origin = [...elements];
@@ -99,17 +95,16 @@
     // set maximum height of the slider
     setMaxHeightSlider();
 
-    setOptionsThumbs();
+    setThumbs();
 
     window.addEventListener('resize', setMaxHeightSlider);
 
     render();
 
-    slides.forEach(slide => {
+    for(let slide of slides){
 
         // disable drag image
         slide.addEventListener('dragstart', event => event.preventDefault());
-        // slide.setAttribute('draggable',false);
 
         slide.addEventListener('pointerdown', scrollStart);
         slide.addEventListener('pointermove', scrollMove);
@@ -119,14 +114,17 @@
 
         // disable click
         slide.addEventListener('click', clickSlide);
-    });
+    }
+
+    const thumbs = gallery.querySelectorAll('.thumbs img');
 
     // click to thumbs img
-    gallery.querySelectorAll('.thumbs img').forEach((image,index) => {
-        image.addEventListener('click', () => {
-            clickThumb(index);
+    for(let i = 0; i < length; i++){
+
+        thumbs[i].addEventListener('click', () => {
+            clickThumb(i);
         });
-    });
+    }
 
     // TODO: click icon -- open slide[id]
     gallery.addEventListener('click', event => {
@@ -216,23 +214,26 @@
         slider.style.height = `${maxHeight}px`;
     }
 
-    function setOptionsThumbs(){
+    function setThumbs(){
 
         // thumbs wrapper
         const thumbs = gallery.querySelector('.thumbs');
         
-        // place thumbs images
-        images.forEach(image => {
+        // place thumbs small images
+        for(let i = 0; i < length; i++){
 
-            const clone = image.cloneNode(true);
-            thumbs.append(clone);
-        });
+            const thumb = document.createElement('img');
+            thumb.src = images[i].dataset.thumb;
+            thumbs.append(thumb);
+        }
 
-        // set transition
-        thumbs.querySelectorAll('img').forEach((image, index, array) => {
+        const img = thumbs.querySelectorAll('img');
 
-            array[index].style.transform = `translateX(${elements[index]}%)`;
-        });
+        // set transform
+        for(let i = 0; i < length; i++){
+            
+            img[i].style.transform = `translateX(${elements[i]}%)`;
+        }
     }
 
     function scrollStart(event){
@@ -315,6 +316,7 @@
         }
     }
 
+    // TODO: transform elements
     function render(){
 
         // thumbs images
@@ -322,49 +324,51 @@
 
         // block for dots
         const dots = gallery.querySelector('.dots');
-        let dotsLi = '';
-        let dotsElements = '';
 
-        slides.forEach((slide, index) => {
+        // temp
+        let li = '';
+        let lis = '';
+
+        for(let i = 0; i < length; i++){
 
             // set opacity slide img
-            slide.style.opacity = 0;
-            if(elements[index] === 0){
+            slides[i].style.opacity = 0;
+            if(elements[i] === 0){
 
-                slide.style.opacity = 1;
+                slides[i].style.opacity = 1;
             }
 
-            slide.style.transform = `translateX(${elements[index]}%)`;
+            slides[i].style.transform = `translateX(${elements[i]}%)`;
 
             // temp var
-            const thumb = thumbs[index];
+            const thumb = thumbs[i];
 
             // set opacity for thumbs img
             thumb.style.opacity = 0;
-            if(elements[index] >= 0 && elements[index] <= 500){
+            if(elements[i] >= 0 && elements[i] <= 500){
 
                 thumb.style.opacity = 1;
             }
 
             // render thumbs images
-            thumb.style.transform = `translateX(${elements[index]}%)`;
+            thumb.style.transform = `translateX(${elements[i]}%)`;
 
             // render dots li
-            if(elements[index] === 0){
+            if(elements[i] === 0){
 
                 // dots block
-                dotsLi = `<li data-id="${index}" class="active"></li>`;
+                li = `<li data-id="${i}" class="active"></li>`;
 
             } else {
                 
                 // dots block
-                dotsLi = `<li data-id="${index}"></li>`;
+                li = `<li data-id="${i}"></li>`;
             }
 
-            dotsElements += dotsLi;
-        });
+            lis += li;
+        }
 
-        dots.innerHTML = dotsElements;
+        dots.innerHTML = lis;
     }
 
     // move item after click
@@ -388,11 +392,6 @@
 
         event.preventDefault();   
     }
-
-    // function clickDot(){
-
-
-    // }
 
     // close lightbox
     function closeLightbox(){

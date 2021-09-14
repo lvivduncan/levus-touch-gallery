@@ -8,11 +8,11 @@
 /* for test */
 .wrapper
 {
-    width: 800px;
+    width: 700px;
     margin: auto;
 }
 
-@media(max-width:850px)
+@media(max-width:750px)
 {
     .wrapper
     {
