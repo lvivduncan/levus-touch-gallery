@@ -26,9 +26,6 @@ hr
 }
 /* for test */
 
-
-
-
 .levus-touch-gallery
 {
     overflow: hidden;
@@ -81,7 +78,7 @@ hr
     user-select: none;
 }
 
-.levus-touch-gallery .slides .slide
+.levus-touch-gallery .slides a
 {
     position: absolute;
     top: 0;
@@ -91,25 +88,23 @@ hr
     transition: .5s;
 }
 
-/* change cursor */
-.levus-touch-gallery .slides .slide.grab
+.levus-touch-gallery .slides a.grab
 {
     cursor: grabbing;
 }
 
-.levus-touch-gallery .slides .slide picture
+.levus-touch-gallery .slides a picture
 {
     display: block;
     position: relative;
 }
 
-.levus-touch-gallery .slides .slide picture img
+.levus-touch-gallery .slides a picture img
 {
     object-fit: cover;
     pointer-events: none;
 }
 
-/* icon for click */
 .levus-touch-gallery .icon
 {
     width: 36px;
@@ -118,16 +113,22 @@ hr
     top: 20px;
     right: 20px;
     z-index: 1;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z'/%3E%3C/svg%3E");
     background-size: cover;
     cursor: pointer;
     transition: .5s;
 }
 
+.levus-touch-gallery .icon:hover
+{
+    transform: scale(1.2);
+}
+
 @media(max-width:776px)
 {
-    .levus-touch-gallery .icon{
-        display: none;
+    .levus-touch-gallery .icon
+    {
+        opacity: 0;
     }
 }
 
@@ -136,7 +137,6 @@ hr
     opacity: 0;
 }
 
-/* мініатюри на десктопі (на мобільному сховано) */
 .levus-touch-gallery .thumbs
 {
     overflow: hidden;
@@ -171,7 +171,6 @@ hr
     transition: .5s;
 }
 
-/* крапки на мобільному (на десктопі приховати) */
 .levus-touch-gallery .dots
 {
     display: none;
@@ -187,7 +186,6 @@ hr
         gap: 5px;
         padding: 15px 0;
     }
-
     .levus-touch-gallery .dots li
     {
         display: block;
@@ -203,7 +201,6 @@ hr
     }
 }
 
-/* блок, в якому виводяться фотки лайтбокса */
 #levus-lightbox
 {
     position: fixed;
@@ -217,7 +214,6 @@ hr
     display: flex;
     align-items: center;
     justify-content: center;
-
     cursor: pointer;
 }
 

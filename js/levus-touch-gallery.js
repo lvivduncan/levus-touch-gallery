@@ -5,6 +5,16 @@
     const body = document.getElementsByTagName('body')[0];
     const gallery = document.querySelector('.levus-touch-gallery');
 
+    // insert .thumbs div
+    const thumbs = document.createElement('div');
+    thumbs.className = 'thumbs';
+    gallery.append(thumbs);
+
+    // insert .dots ul
+    const dots = document.createElement('ul');
+    dots.className = 'dots';
+    gallery.append(dots);
+
     // insert icon 'view'
     const icon = document.createElement('div');
     icon.className = 'icon';
@@ -17,8 +27,8 @@
 
     const slider = gallery.querySelector('.slides');
 
-    // slides
-    let slides = gallery.querySelectorAll('.slide');
+    // slides (origin nodeList)
+    let slides = gallery.querySelectorAll('.slides a');
 
     if(slides.length <= 7){
 
@@ -30,24 +40,14 @@
     }
 
     // get new nodeList
-    slides = gallery.querySelectorAll('.slide');
+    slides = gallery.querySelectorAll('.slides a');
 
     const images = gallery.querySelectorAll('img');
 
     const length = images.length;
 
-    // мініатюри
-    const miniImages = [];
-
-    for(let i of images){
-
-        miniImages.push(i.dataset.thumb);
-    }
-
-    // check dragable
     let drag = false;
 
-    // check dragable (for move event)
     let flag = false;
 
     let shift = '';
@@ -91,10 +91,12 @@
     // set maximum height of the slider
     setMaxHeightSlider();
 
-    setThumbs();
-
     window.addEventListener('resize', setMaxHeightSlider);
 
+    // first render thumbs img
+    setThumbs();
+
+    // first render
     render();
 
     for(let slide of slides){
@@ -117,12 +119,13 @@
     document.addEventListener('pointerup', pointerUp);
     document.addEventListener('pointercancel', pointerUp);
 
-    const thumbs = gallery.querySelectorAll('.thumbs img');
+    // get created img 
+    const thumbsImg = gallery.querySelectorAll('.thumbs img');
 
     // click to thumbs img
     for(let i = 0; i < length; i++){
 
-        thumbs[i].addEventListener('click', () => {
+        thumbsImg[i].addEventListener('click', () => {
             clickThumb(i);
         });
     }
@@ -133,7 +136,7 @@
         // click to icon -- for open lightbox
         if(event.target.classList.contains('icon')){
 
-            slides = gallery.querySelectorAll('.slide');
+            slides = gallery.querySelectorAll('.slides a');
 
             for(let i = 0; i < length; i++){
                 
@@ -152,17 +155,17 @@
                             class="levus-lightbox-picture">
                     </picture>`;
             }
-                    // prepared data to insert to body
-                    lightbox.innerHTML = insertData;
 
-                    // isert data to body
-                    body.append(lightbox);
+            // prepared data to insert to body
+            lightbox.innerHTML = insertData;
 
-                    setTimeout(() => {
-                        
-                        lightbox.className = 'active';
-                    }, 60);
+            // isert data to body
+            body.append(lightbox);
 
+            setTimeout(() => {
+                
+                lightbox.className = 'active';
+            }, 60);
         }
 
         // click dot -- for scroll
@@ -208,6 +211,31 @@
 
             closeLightbox();
         }
+
+        // to left
+        if(event.key === 'ArrowLeft' || event.code === 'ArrowLeft'){
+
+            const first = elements.pop();
+            elements.unshift(first);
+
+            // if exists (if exists lightbox)
+            document.querySelector('#levus-lightbox') && reloadLightbox();
+
+            render();
+        }
+
+        // to right
+        if(event.key === 'ArrowRight' || event.code === 'ArrowRight'){
+            
+            const last = elements.shift();
+            elements.push(last);
+
+            // if exists (if exists lightbox)
+            document.querySelector('#levus-lightbox') && reloadLightbox();
+
+            render();
+        }
+
     });
 
     function setMaxHeightSlider(){
@@ -394,6 +422,8 @@
         event.preventDefault();   
     }
 
+    // lightbox functions
+
     // close lightbox
     function closeLightbox(){
 
@@ -409,13 +439,7 @@
 
         // clear lightbox content
         insertData = '';
-
-        // set default data
-        // setTransition();
     }
-
-    
-
 
     function pointerDown(event){
 
@@ -442,13 +466,15 @@
                 // if to left
                 if(finish - start < 0){
 
-                    shift = (finish - start) / 2;
+                    // shift = (finish - start) / 2;
+                    shift = finish - start;
                 } 
                 
                 // if to right
                 if(finish - start > 0) { 
 
-                    shift = Math.abs(start - finish) / 2;
+                    // shift = Math.abs(start - finish) / 2;
+                    shift = Math.abs(start - finish);
                 }
 
                 el.style.transform = `translateX(${shift}%)`;
@@ -462,38 +488,19 @@
 
             if(finish - start < 0){
 
-                // manipulation translate[]
                 const first = elements.pop();
                 elements.unshift(first);
             } 
             
-            // if to right
             if(finish - start > 0) { 
 
-                // manipulation translate[]
                 const last = elements.shift();
                 elements.push(last);
             }
 
             event.target.classList.remove('touch');
 
-            // TODO: bug! this all pictures!
-            const newPictures = document.querySelectorAll('#levus-lightbox picture');
-
-            for(let i = 0; i < length; i++){
-
-                if(elements[i] === 0){
-
-                    opacity = 1;
-                } else {
-                    
-                    opacity = 0;
-                }
-
-                newPictures[i].style.transform = `translateX(${elements[i]}%)`;
-                newPictures[i].style.opacity = opacity;
-            }
-
+            reloadLightbox();
         }
 
         flag = false;
@@ -501,4 +508,25 @@
         render();
     }
 
+    function reloadLightbox(){
+
+        // TODO: this all pictures!
+        const newPictures = document.querySelectorAll('#levus-lightbox picture');
+
+        for(let i = 0; i < length; i++){
+
+            if(elements[i] === 0){
+
+                opacity = 1;
+            } else {
+                
+                opacity = 0;
+            }
+
+            newPictures[i].style.transform = `translateX(${elements[i]}%)`;
+            newPictures[i].style.opacity = opacity;
+        }
+    }
+
+    // TODO: add desctiption 
 }
