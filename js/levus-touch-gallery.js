@@ -94,7 +94,7 @@
     window.addEventListener('resize', setMaxHeightSlider);
 
     // first render thumbs img
-    setThumbs();
+    setThumbsAndDots();
 
     // first render
     render();
@@ -171,13 +171,13 @@
         // click dot -- for scroll
         if(event.target.tagName === 'LI'){
 
-            const dots = gallery.querySelectorAll('.dots li');
+            const lis = gallery.querySelectorAll('.dots li');
 
             const id = event.target.dataset.id;
             
             for(let i = 0; i < length; i++){
 
-                dots[i].classList.remove('active');
+                lis[i].classList.remove('active');
                 event.target.classList.add('active');
             }
 
@@ -243,25 +243,35 @@
         slider.style.height = `${maxHeight}px`;
     }
 
-    function setThumbs(){
+    function setThumbsAndDots(){
 
         // thumbs wrapper
         const thumbs = gallery.querySelector('.thumbs');
         
+        // dots
+        const dots = gallery.querySelector('.dots');
+
         // place thumbs small images
         for(let i = 0; i < length; i++){
 
             const thumb = document.createElement('img');
             thumb.src = images[i].dataset.thumb;
             thumbs.append(thumb);
-        }
 
-        const img = thumbs.querySelectorAll('img');
+            const li = document.createElement('li');
+            li.dataset.id = i;
+            dots.append(li);
+        }
+        
+        const imgs = thumbs.querySelectorAll('img');
+
+        // set first element class
+        dots.querySelector('li').className = 'active';
 
         // set transform
         for(let i = 0; i < length; i++){
             
-            img[i].style.transform = `translateX(${elements[i]}%)`;
+            imgs[i].style.transform = `translateX(${elements[i]}%)`; 
         }
     }
 
@@ -351,12 +361,8 @@
         // thumbs images
         const thumbs = gallery.querySelectorAll('.thumbs img');
 
-        // block for dots
-        const dots = gallery.querySelector('.dots');
-
-        // temp
-        let li = '';
-        let lis = '';
+        // dots lis
+        const lis = gallery.querySelectorAll('.dots li');
 
         for(let i = 0; i < length; i++){
 
@@ -382,22 +388,19 @@
             // render thumbs images
             thumb.style.transform = `translateX(${elements[i]}%)`;
 
+            // temp var
+            const li = lis[i];
+
             // render dots li
             if(elements[i] === 0){
 
-                // dots block
-                li = `<li data-id="${i}" class="active"></li>`;
+                li.className = 'active';
 
             } else {
                 
-                // dots block
-                li = `<li data-id="${i}"></li>`;
+                li.className = '';
             }
-
-            lis += li;
         }
-
-        dots.innerHTML = lis;
     }
 
     // move item after click
@@ -528,5 +531,5 @@
         }
     }
 
-    // TODO: add desctiption 
+    // TODO: add description 
 }
