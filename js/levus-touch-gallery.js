@@ -1,8 +1,5 @@
-// TODO: клікабельні тумбіки на десктопі (скрол), на мобільному крапки. велике фото має лайтбокс
 // TODO: add all gallery
 // TODO: fix thumbs animation
-// TODO: thumbs crop image
-// TODO: replace forEach with for-of
 
 {
     const body = document.getElementsByTagName('body')[0];
@@ -79,7 +76,6 @@
     }
 
     // clone
-    // const origin = [...elements];
     const origin = elements.slice(0);
 
     // create lightbox div
@@ -116,6 +112,11 @@
         slide.addEventListener('click', clickSlide);
     }
 
+    document.addEventListener('pointerdown', pointerDown);
+    document.addEventListener('pointermove', pointerMove);
+    document.addEventListener('pointerup', pointerUp);
+    document.addEventListener('pointercancel', pointerUp);
+
     const thumbs = gallery.querySelectorAll('.thumbs img');
 
     // click to thumbs img
@@ -135,20 +136,22 @@
             slides = gallery.querySelectorAll('.slide');
 
             for(let i = 0; i < length; i++){
-
-                // active slide
+                
                 if(slides[i].style.opacity == 1){
-                    
-                    // <picture style="transform:translateX(${elements[i]}%);opacity:${opacity}">
-                    insertData += `
-                        <picture style="transform:translateX(${elements[i]}%);opacity:1">
-                            <img 
-                                src="${slides[i].href}" 
-                                alt="${slides[i].title}" 
-                                draggable="false" 
-                                class="levus-lightbox-picture">
-                        </picture>`;  
+                    opacity = 1;
+                } else {
+                    opacity = 0;
+                }
 
+                insertData += `
+                    <picture style="transform:translateX(${elements[i]}%);opacity:${opacity}">
+                        <img 
+                            src="${slides[i].href}" 
+                            alt="${slides[i].title}" 
+                            draggable="false" 
+                            class="levus-lightbox-picture">
+                    </picture>`;
+            }
                     // prepared data to insert to body
                     lightbox.innerHTML = insertData;
 
@@ -159,9 +162,7 @@
                         
                         lightbox.className = 'active';
                     }, 60);
-                }
 
-            }
         }
 
         // click dot -- for scroll
@@ -411,6 +412,93 @@
 
         // set default data
         // setTransition();
+    }
+
+    
+
+
+    function pointerDown(event){
+
+        if(event.target.classList.contains('levus-lightbox-picture')){
+
+            flag = true;
+
+            event.target.classList.add('touch');
+
+            start = event.pageX;
+        }
+    }
+
+    function pointerMove(event){
+
+        if(event.target.classList.contains('levus-lightbox-picture')){
+
+            const el = event.target.parentNode;
+
+            if(flag === true){
+            
+                finish = event.pageX;
+
+                // if to left
+                if(finish - start < 0){
+
+                    shift = (finish - start) / 2;
+                } 
+                
+                // if to right
+                if(finish - start > 0) { 
+
+                    shift = Math.abs(start - finish) / 2;
+                }
+
+                el.style.transform = `translateX(${shift}%)`;
+            }
+        }
+    }
+
+    function pointerUp(event){
+
+        if(flag === true){
+
+            if(finish - start < 0){
+
+                // manipulation translate[]
+                const first = elements.pop();
+                elements.unshift(first);
+            } 
+            
+            // if to right
+            if(finish - start > 0) { 
+
+                // manipulation translate[]
+                const last = elements.shift();
+                elements.push(last);
+            }
+
+            event.target.classList.remove('touch');
+
+            // TODO: bug! this all pictures!
+            const newPictures = document.querySelectorAll('#levus-lightbox picture');
+
+            for(let i = 0; i < length; i++){
+
+                if(elements[i] === 0){
+
+                    opacity = 1;
+                } else {
+                    
+                    opacity = 0;
+                }
+
+                newPictures[i].style.transform = `translateX(${elements[i]}%)`;
+                newPictures[i].style.opacity = opacity;
+            }
+
+        }
+
+        flag = false;
+
+        render();
     }
 
 }
