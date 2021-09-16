@@ -30,6 +30,7 @@
     // slides (origin nodeList)
     let slides = gallery.querySelectorAll('.slides a');
 
+    // розмноження, якщо кількості недостатньо
     if(slides.length <= 7){
 
         for(let slide of slides){
@@ -38,6 +39,13 @@
             slider.append(clone);
         }
     }
+
+    // // примусове розмноження
+    // for(let slide of slides){
+
+    //     const clone = slide.cloneNode(true);
+    //     slider.append(clone);
+    // }
 
     // get new nodeList
     slides = gallery.querySelectorAll('.slides a');
@@ -60,20 +68,24 @@
 
     // array slides
     let elements = [];
-    
-    // fill array 
+
     for(let i = 0; i < length; i++){
 
-        // last element -100
-        if(i === slides.length-1){
-            
+        if(i === length - 1){
+
             elements.push(-100);
-            
         } else {
-            
+
             elements.push(i * 100);
         }
     }
+
+    // // fill array (TODO: половина з мінусом, 0 -- 0, решта з плюсом)    
+    // for (let i = -length/2 + 1; i <= length/2; i++) {
+    //    elements.push(i * 100);
+    // }
+    
+    // console.log(elements);
 
     // clone
     const origin = elements.slice(0);
@@ -114,10 +126,10 @@
         slide.addEventListener('click', clickSlide);
     }
 
-    document.addEventListener('pointerdown', pointerDown);
-    document.addEventListener('pointermove', pointerMove);
-    document.addEventListener('pointerup', pointerUp);
-    document.addEventListener('pointercancel', pointerUp);
+    document.addEventListener('pointerdown', startLightbox);
+    document.addEventListener('pointermove', moveLightbox);
+    document.addEventListener('pointerup', endLightbox);
+    document.addEventListener('pointercancel', endLightbox);
 
     // get created img 
     const thumbsImg = gallery.querySelectorAll('.thumbs img');
@@ -444,7 +456,7 @@
         insertData = '';
     }
 
-    function pointerDown(event){
+    function startLightbox(event){
 
         if(event.target.classList.contains('levus-lightbox-picture')){
 
@@ -456,7 +468,7 @@
         }
     }
 
-    function pointerMove(event){
+    function moveLightbox(event){
 
         if(event.target.classList.contains('levus-lightbox-picture')){
 
@@ -485,7 +497,7 @@
         }
     }
 
-    function pointerUp(event){
+    function endLightbox(event){
 
         if(flag === true){
 
@@ -532,4 +544,8 @@
     }
 
     // TODO: add description 
+
+    // TODO: elements -100 0 100
+
+    // TODO: thumbs and dots -- append/prepend
 }
