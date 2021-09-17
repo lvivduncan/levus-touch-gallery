@@ -4,6 +4,12 @@
     position: relative;
 }
 
+.levus-touch-gallery, .levus-touch-gallery * {
+    padding: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+}
+
 .levus-touch-gallery::after
 {
     content: '';
@@ -47,7 +53,6 @@
 .levus-touch-gallery .slides
 {
     overflow: hidden;
-    background: gainsboro;
 }
 
 .levus-touch-gallery .slides ul
