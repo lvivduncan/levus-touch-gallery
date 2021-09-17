@@ -247,7 +247,7 @@ for(let slider of levusSlider){
         }
     });
 
-    // keydown events
+    // keyboard events
     document.addEventListener('keydown', event => {
 
         // close lightbox
