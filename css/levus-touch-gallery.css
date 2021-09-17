@@ -100,6 +100,7 @@ body
     height: 100%;
     display: block;
     transition: .5s;
+    border: 1px solid #fff;
 }
 
 .levus-touch-gallery .slides li a
@@ -108,9 +109,39 @@ body
     display: flex;
     align-items: center;
     justify-content: center;
-    /**/
-    text-decoration: none;
-    color: #fff;
+}
+
+/* іконка лайбоксу */
+.levus-touch-gallery .icon
+{
+    width: 36px;
+    height: 36px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z'/%3E%3C/svg%3E");
+    background-size: cover;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.levus-touch-gallery .icon:hover
+{
+    transform: scale(1.2);
+}
+
+@media(max-width:776px)
+{
+    .levus-touch-gallery .icon
+    {
+        opacity: 0;
+    }
+}
+
+.levus-touch-gallery .icon.hide
+{
+    opacity: 0;
 }
 
 /* тумбіки */
@@ -156,39 +187,7 @@ body
     object-fit: cover;
 }
 
-/* іконка лайбоксу */
-.levus-touch-gallery .icon
-{
-    width: 36px;
-    height: 36px;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 1;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z'/%3E%3C/svg%3E");
-    background-size: cover;
-    cursor: pointer;
-    transition: .5s;
-}
-
-.levus-touch-gallery .icon:hover
-{
-    transform: scale(1.2);
-}
-
-@media(max-width:776px)
-{
-    .levus-touch-gallery .icon
-    {
-        opacity: 0;
-    }
-}
-
-.levus-touch-gallery .icon.hide
-{
-    opacity: 0;
-}
-
+/* пімпочки */
 .levus-touch-gallery .dots
 {
     display: none;
@@ -306,4 +305,17 @@ body
 .levus-touch-gallery a.grab
 {
     cursor: grabbing;
+}
+
+/**/
+#levus-lightbox-desc
+{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    color: #fff;
+    text-align: center;
+    z-index: 4;
 }

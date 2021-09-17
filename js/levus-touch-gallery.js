@@ -56,6 +56,27 @@ for(let slider of levusSlider){
     thumbsWrapper.append(thumbs);
     slider.append(thumbsWrapper);
 
+    ////////////////////////
+    // генеруємо пімпочки //
+    ////////////////////////
+
+    const dots = document.createElement('ul');
+    dots.className = 'dots';
+
+    for(let i = 0; i < length; i++){
+
+        const li = document.createElement('li');
+        li.dataset.id = i;
+
+        if(i === 0){
+            li.className = 'active';
+        }
+
+        dots.append(li);
+    }
+
+    slider.append(dots);
+
     ////////////
     // іконка //
     ////////////
@@ -110,7 +131,6 @@ for(let slider of levusSlider){
         for(let li of lis){
             
             li.style.width = '25%';
-            li.style.height = '100px';
         }
     }
 
@@ -188,6 +208,37 @@ for(let slider of levusSlider){
         render();
     });
 
+    // клік на пімпочку
+    dots.addEventListener('click', event => {
+
+        if(event.target.tagName === 'LI'){
+
+            const id = event.target.dataset.id;
+
+            // якщо поточний слайд має номер більший за номер тумбіка
+            if(current > id){
+    
+                for(let i = 0; i < Math.abs(current - id); i++){
+    
+                    const last = elements.shift();
+                    elements.push(last);                
+                }
+            }
+    
+            // якщо поточний слайд має номер менший за номер тумбіка
+            if(current < id){
+    
+                for(let i = 0; i < Math.abs(current - id); i++){
+    
+                    const first = elements.pop();
+                    elements.unshift(first);                
+                }
+            }
+    
+            render();
+        }
+    });
+
     // висота блоку для слайдів
     setMaxHeightSlider();
 
@@ -225,8 +276,12 @@ for(let slider of levusSlider){
                     </picture>`;
             }
 
+            // create lightbox desc
+            const desc = '<div id="levus-lightbox-desc"></div>';
+
             // prepared data to insert to body
             lightbox.innerHTML = insertData;
+            lightbox.innerHTML += desc;
 
             // isert data to body
             body.append(lightbox);
@@ -235,6 +290,9 @@ for(let slider of levusSlider){
                 
                 lightbox.className = 'active';
             }, 60);
+
+            // view desc in bottom
+            lightboxDesc(current);
         }
     });
 
@@ -553,15 +611,36 @@ for(let slider of levusSlider){
 
             thumbs.style.transform = `translateX(0)`;
             thumbs.style.transition = '.5s';
-        }, 60);        
+        }, 60);
+
+        /////////////////
+        // render dots //
+        /////////////////
+        const lis = slider.querySelectorAll('.dots li');
+        for(let i = 0; i < length; i++){
+
+            lis[i].className = '';
+        }
+        lis[current].className = 'active';
+
+        // view desc in bottom
+        document.querySelector('#levus-lightbox-desc') && lightboxDesc(current);
     }
 
     // description
-    function lightboxDesc(){
+    function lightboxDesc(i){
+        const desc = document.querySelector('#levus-lightbox-desc');
 
+        const images = slidesUl.querySelectorAll('img');
+
+        const alts = [];
+        for(let image of images){
+
+            alts.push(image.alt);
+        }
+
+        desc.innerHTML = alts[i];
     }
 }
-
-// TODO: description
 
 // 17-09-2021
