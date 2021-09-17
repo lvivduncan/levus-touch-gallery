@@ -1,144 +1,215 @@
-// TODO: add all gallery
-// TODO: fix thumbs animation
+// 16-09-2021
 
-{
-    const body = document.getElementsByTagName('body')[0];
-    const gallery = document.querySelector('.levus-touch-gallery');
+// усі галереї
+const levusSlider = document.querySelectorAll('.levus-touch-gallery'); 
 
-    // insert .thumbs div
-    const thumbs = document.createElement('div');
-    thumbs.className = 'thumbs';
-    gallery.append(thumbs);
+// для вставки лайтбоксу
+const body = document.getElementsByTagName('body')[0];
 
-    // insert .dots ul
-    const dots = document.createElement('ul');
-    dots.className = 'dots';
-    gallery.append(dots);
+// every slider
+for(let slider of levusSlider){
 
-    // insert icon 'view'
-    const icon = document.createElement('div');
-    icon.className = 'icon';
-    gallery.append(icon);
+    /////////////////////////////
+    // ховаємо до завантаження // 
+    /////////////////////////////
 
     setTimeout(() => {
         
-        gallery.classList.add('load');
-    }, 1000);
+        slider.classList.add('load');
+    }, 1500);
 
-    const slider = gallery.querySelector('.slides');
+    // список з великими слайдами
+    const slidesUl = slider.querySelector('.slides ul');
 
-    // slides (origin nodeList)
-    let slides = gallery.querySelectorAll('.slides a');
+    // усі слайди || all slides    
+    const slides = slidesUl.querySelectorAll('li');
 
-    // розмноження, якщо кількості недостатньо
-    if(slides.length <= 7){
+    // усі картинки у слайдах || all pictures from slides
+    const images = slidesUl.querySelectorAll('img');
 
-        for(let slide of slides){
+    // кількість слайдів || quantity slides
+    const length = slides.length;
 
-            const clone = slide.cloneNode(true);
-            slider.append(clone);
-        }
+    // додаємо айді усім слайдам || set data-id attribute
+    for(let i = 0; i < length; i++){
+
+        slides[i].dataset.id = i;
     }
 
-    // get new nodeList
-    slides = gallery.querySelectorAll('.slides a');
+    ////////////////////////////////////////////////////
+    // генеруємо блок з тумбіками || thumbs generated //
+    ////////////////////////////////////////////////////
 
-    const images = gallery.querySelectorAll('img');
-
-    const length = images.length;
-
-    let drag = false;
-
-    let flag = false;
-
-    let shift = '';
-
-    // start drag
-    let start = 0;
-
-    // finish drag
-    let finish = 0;
-
-    // array slides
-    let elements = [];
+    let pics = '';
 
     for(let i = 0; i < length; i++){
 
-        if(i === length - 1){
-
-            elements.push(-100);
-        } else {
-
-            elements.push(i * 100);
-        }
+        const pic = `<li data-id="${i}"><img src="${images[i].dataset.thumb}" alt=""></li>`;
+        pics += pic;
     }
 
-    // clone
-    const origin = elements.slice(0);
+    const thumbsWrapper = document.createElement('div');
+    thumbsWrapper.className = 'thumbs';
+    const thumbs = document.createElement('ul');    
 
-    // create lightbox div
+    thumbs.innerHTML = pics;
+    thumbsWrapper.append(thumbs);
+    slider.append(thumbsWrapper);
+
+    ////////////
+    // іконка //
+    ////////////
+
+    const icon = document.createElement('div');
+    icon.className = 'icon';
+    slider.prepend(icon);
+
+    //////////////////////////
+    // перемінні для свайпу //
+    //////////////////////////
+
+    // drag check
+    let drag, flag = false;
+
+    // drag vars (current -- id current's element)
+    let start, finish, current, opacity = 0;
+    let shift = 1;
+
+    // елементи лайтбокса
+    let insertData = '';
+
+    // create lightbox block
     const lightbox = document.createElement('div');
     lightbox.id = 'levus-lightbox';
 
-    // temp container for lightbox elements 
-    let insertData = '';
+    // якщо кількість більше 4, то робимо грід, якщо менше -- центруємо
+    if(length > 4){
 
-    // opacity current element
-    let opacity = 0;
+        thumbs.style.display = 'grid';
 
-    // set maximum height of the slider
-    setMaxHeightSlider();
+        // зсув на 1 елемент вліво || set shift to 1 el
+        thumbs.style.left = '-25%';
 
-    window.addEventListener('resize', setMaxHeightSlider);
+        // встановлюємо кількість вічок
+        thumbs.style.gridTemplateColumns = `repeat(${length},25%)`;
 
-    // first render thumbs img
-    setThumbsAndDots();
+        // центруємо активний елемент || active element centered
+        for(let i = 0; i < 2; i++){
 
-    // first render
-    render();
+            const last = thumbs.lastElementChild;
+            thumbs.prepend(last);
+        }
+    } else {
 
-    for(let slide of slides){
+        const lis = thumbs.querySelectorAll('li');
 
-        // disable drag image
-        slide.addEventListener('dragstart', event => event.preventDefault());
+        thumbs.style.display = 'flex';
+        thumbs.style.alignItems = 'center';
+        thumbs.style.justifyContent = 'center';
 
-        slide.addEventListener('pointerdown', scrollStart);
-        slide.addEventListener('pointermove', scrollMove);
-        slide.addEventListener('pointerup', scrollEnd);
-        slide.addEventListener('pointercancel', scrollEnd);
-        slide.addEventListener('pointerleave', scrollEnd);
-
-        // disable click
-        slide.addEventListener('click', clickSlide);
+        for(let li of lis){
+            
+            li.style.width = '25%';
+            li.style.height = '100px';
+        }
     }
 
-    document.addEventListener('pointerdown', startLightbox);
-    document.addEventListener('pointermove', moveLightbox);
-    document.addEventListener('pointerup', endLightbox);
-    document.addEventListener('pointercancel', endLightbox);
+    //////////////////////////////////////
+    // масив для позиціонування слайдів //
+    //////////////////////////////////////
 
-    // get created img 
-    const thumbsImg = gallery.querySelectorAll('.thumbs img');
+    // transformX
+    let elements = [];
 
-    // click to thumbs img
+    // set transformX
     for(let i = 0; i < length; i++){
 
-        thumbsImg[i].addEventListener('click', () => {
-            clickThumb(i);
-        });
+        if(i === length-1){
+
+            elements.push(-100);
+        } else if(i === 0){
+
+            elements.push(0);
+        } else {
+
+            elements.push(100);
+        }
     }
 
-    // TODO: click icon -- open slide[id]
-    gallery.addEventListener('click', event => {
+    // малюємо слайди та тумбіки після завантаження сторінки
+    render();
 
-        // click to icon -- for open lightbox
+    // події
+    for(let i = 0; i < length; i++){
+
+        // тимчасова перемінна для зручності || temporary var
+        const slide = slides[i];
+
+        // disable drag image (for firefox)
+        slide.addEventListener('dragstart', event => event.preventDefault());
+
+        slide.addEventListener('pointerdown', sliderStart);
+        slide.addEventListener('pointermove', sliderMove);
+        slide.addEventListener('pointerup', sliderEnd);
+        slide.addEventListener('pointercancel', sliderEnd);
+        slide.addEventListener('pointerleave', sliderEnd);
+
+        // disable click
+        slide.addEventListener('click', event => event.preventDefault());
+    }
+
+    // клік на тумбік
+    thumbs.addEventListener('click', event => {
+
+        // TODO: замінити на this?
+
+        const id = event.target.parentNode.dataset.id;
+
+        // якщо поточний слайд має номер більший за номер тумбіка
+        if(current > id){
+
+            for(let i = 0; i < Math.abs(current - id); i++){
+
+                const last = elements.shift();
+                elements.push(last);                
+            }
+        }
+
+        // якщо поточний слайд має номер менший за номер тумбіка
+        if(current < id){
+
+            for(let i = 0; i < Math.abs(current - id); i++){
+
+                const first = elements.pop();
+                elements.unshift(first);                
+            }
+        }
+
+        render();
+    });
+
+    // висота блоку для слайдів
+    setMaxHeightSlider();
+
+    // висота блоку для слайдів
+    window.addEventListener('resize', setMaxHeightSlider);
+
+    // lightbox 
+    document.addEventListener('pointerdown', lightboxStart);
+    document.addEventListener('pointermove', lightboxMove);
+    document.addEventListener('pointerup', lightboxEnd);
+    document.addEventListener('pointercancel', lightboxEnd);
+
+    // клік на іконку (запуск лайтбокса)
+    slider.addEventListener('click', event => {
+
         if(event.target.classList.contains('icon')){
 
-            slides = gallery.querySelectorAll('.slides a');
+            const slides = slider.querySelectorAll('.slides a');
 
             for(let i = 0; i < length; i++){
                 
-                if(slides[i].style.opacity == 1){
+                if(elements[i] === 0){
                     opacity = 1;
                 } else {
                     opacity = 0;
@@ -165,31 +236,6 @@
                 lightbox.className = 'active';
             }, 60);
         }
-
-        // click dot -- for scroll
-        if(event.target.tagName === 'LI'){
-
-            const lis = gallery.querySelectorAll('.dots li');
-
-            const id = event.target.dataset.id;
-            
-            for(let i = 0; i < length; i++){
-
-                lis[i].classList.remove('active');
-                event.target.classList.add('active');
-            }
-
-            elements.length = 0;
-
-            // clone
-            elements = origin.slice(0);
-    
-            // assign
-            const crop = elements.splice(0,length - id);
-            elements.push(...crop);
-    
-            render();
-        }
     });
 
     // close lightbox
@@ -197,17 +243,17 @@
 
         if(event.target.tagName === 'PICTURE'){
 
-            closeLightbox();
+            lightboxClose();
         }
     });
 
-    // close lightbox
+    // keydown events
     document.addEventListener('keydown', event => {
 
         // close lightbox
         if(event.key === 'Escape' || event.code === 'Escape'){
 
-            closeLightbox();
+            lightboxClose();
         }
 
         // to left
@@ -217,7 +263,7 @@
             elements.unshift(first);
 
             // if exists (if exists lightbox)
-            document.querySelector('#levus-lightbox') && reloadLightbox();
+            document.querySelector('#levus-lightbox') && lightboxReload();
 
             render();
         }
@@ -229,96 +275,76 @@
             elements.push(last);
 
             // if exists (if exists lightbox)
-            document.querySelector('#levus-lightbox') && reloadLightbox();
+            document.querySelector('#levus-lightbox') && lightboxReload();
 
             render();
         }
 
     });
 
-    function setMaxHeightSlider(){
-        const maxHeight = Math.max(...[...images].map(image => image.clientHeight));
-        slider.style.height = `${maxHeight}px`;
-    }
+    ///////////////
+    // functions //
+    ///////////////
 
-    function setThumbsAndDots(){
+    // /////////
+    // слайди //
+    // /////////
 
-        // thumbs wrapper
-        const thumbs = gallery.querySelector('.thumbs');
-        
-        // dots
-        const dots = gallery.querySelector('.dots');
+    // натискання
+    function sliderStart(event){
 
-        // place thumbs small images
-        for(let i = 0; i < length; i++){
-
-            const thumb = document.createElement('img');
-            thumb.src = images[i].dataset.thumb;
-            thumbs.append(thumb);
-
-            const li = document.createElement('li');
-            li.dataset.id = i;
-            dots.append(li);
-        }
-        
-        const imgs = thumbs.querySelectorAll('img');
-
-        // set first element class
-        dots.querySelector('li').className = 'active';
-
-        // set transform
-        for(let i = 0; i < length; i++){
-            
-            imgs[i].style.transform = `translateX(${elements[i]}%)`; 
-        }
-    }
-
-    function scrollStart(event){
         drag = true;
 
         // where it was pressed
         start = event.pageX;
 
-        this.classList.add('grab');
+        // console.log('scrollStart')
     }
 
-    function scrollMove(event){
+    // рух мишкою
+    function sliderMove(event){
+
         if(drag){
 
-            // where it was moved
+            // куди дотягнули || where it was moved
             finish = event.pageX;
 
-            // if to left
+            // якщо вліво || if to left
             if(finish - start < 0){
 
                 shift = finish - start;
 
                 if(flag === false){
 
+
                     flag = true;
                 }
+
             } 
             
-            // if to right
+            // якщо вправо || if to right
             if(finish - start > 0) { 
 
                 shift = Math.abs(start - finish);
 
                 if(flag === false){
 
+
                     flag = true;
                 }
+
             }
 
-            this.style.transform = `translateX(${shift}px)`;
+            // speed * 2
+            this.style.transform = `translateX(${shift*2}px)`;
 
-            // hide icon
-            icon.classList.add('hide');
+            // cursor grab
+            this.querySelector('a').className = 'grab';
         }
     }
 
-    function scrollEnd(){
-
+    // відпускання мишки + вихід за край слайду
+    function sliderEnd(){
         if(drag){
 
             // to right
@@ -343,106 +369,18 @@
             // set null
             flag = false;
 
-            this.classList.remove('grab');
-
-            // show icon
-            setTimeout(() => {
-                
-                icon.classList.remove('hide');
-            }, 240);            
+            // cursor default
+            this.querySelector('a').className = '';
         }
+        
     }
 
-    // TODO: transform elements
-    function render(){
+    //////////////
+    // лайтбокс //
+    //////////////
 
-        // thumbs images
-        const thumbs = gallery.querySelectorAll('.thumbs img');
-
-        // dots lis
-        const lis = gallery.querySelectorAll('.dots li');
-
-        for(let i = 0; i < length; i++){
-
-            // set opacity slide img
-            slides[i].style.opacity = 0;
-            if(elements[i] === 0){
-
-                slides[i].style.opacity = 1;
-            }
-
-            slides[i].style.transform = `translateX(${elements[i]}%)`;
-
-            // temp var
-            const thumb = thumbs[i];
-
-            // set opacity for thumbs img
-            thumb.style.opacity = 0;
-            if(elements[i] >= 0 && elements[i] <= 500){
-
-                thumb.style.opacity = 1;
-            }
-
-            // render thumbs images
-            thumb.style.transform = `translateX(${elements[i]}%)`;
-
-            // temp var
-            const li = lis[i];
-
-            // render dots li
-            if(elements[i] === 0){
-
-                li.className = 'active';
-
-            } else {
-                
-                li.className = '';
-            }
-        }
-    }
-
-    // move item after click
-    function clickThumb(id){
-
-        // set null
-        elements.length = 0;
-
-        // clone
-        // elements = [...origin];
-        elements = origin.slice(0);
-
-        // assign
-        const crop = elements.splice(0,length - id);
-        elements.push(...crop);
-
-        render();
-    }
-
-    function clickSlide(event){
-
-        event.preventDefault();   
-    }
-
-    // lightbox functions
-
-    // close lightbox
-    function closeLightbox(){
-
-        setTimeout(() => {
-    
-            lightbox.classList.remove('active');
-        }, 60);
-    
-        setTimeout(() => {
-            
-            lightbox.remove();
-        }, 480); 
-
-        // clear lightbox content
-        insertData = '';
-    }
-
-    function startLightbox(event){
+    // натискання
+    function lightboxStart(event){
 
         if(event.target.classList.contains('levus-lightbox-picture')){
 
@@ -453,8 +391,9 @@
             start = event.pageX;
         }
     }
-
-    function moveLightbox(event){
+    
+    // рух мишкою
+    function lightboxMove(event){
 
         if(event.target.classList.contains('levus-lightbox-picture')){
 
@@ -483,7 +422,8 @@
         }
     }
 
-    function endLightbox(event){
+    // відпускання мишки + вихід за край слайду
+    function lightboxEnd(event){
 
         if(flag === true){
 
@@ -501,18 +441,34 @@
 
             event.target.classList.remove('touch');
 
-            reloadLightbox();
+            lightboxReload();
+            render();
         }
 
         flag = false;
-
-        render();
     }
 
-    function reloadLightbox(){
+    // закриваємо лайтбокс
+    function lightboxClose(){
 
-        // TODO: this all pictures!
-        const newPictures = document.querySelectorAll('#levus-lightbox picture');
+        setTimeout(() => {
+    
+            lightbox.classList.remove('active');
+        }, 60);
+    
+        setTimeout(() => {
+            
+            lightbox.remove();
+        }, 480); 
+
+        // clear lightbox content
+        insertData = '';
+    }
+
+    // оновлюємо лайтбокс
+    function lightboxReload(){
+
+        const pictures = document.querySelectorAll('#levus-lightbox picture');
 
         for(let i = 0; i < length; i++){
 
@@ -524,14 +480,88 @@
                 opacity = 0;
             }
 
-            newPictures[i].style.transform = `translateX(${elements[i]}%)`;
-            newPictures[i].style.opacity = opacity;
+            pictures[i].style.transform = `translateX(${elements[i]}%)`;
+            pictures[i].style.opacity = opacity;
         }
     }
 
-    // TODO: add description 
+    // висота блоку зі слайдами залеже від найбільшого слайду
+    function setMaxHeightSlider(){
 
-    // TODO: elements -100 0 100
+        const maxHeight = Math.max(...[...images].map(image => image.clientHeight));
+        slidesUl.style.height = `${maxHeight}px`;
+    }
 
-    // TODO: thumbs and dots -- append/prepend
+    // перемальовка елементів || render slides and thumbs
+    function render(){
+
+        //////////////////
+        // render slide //
+        //////////////////
+
+        for(let i = 0; i < length; i++){
+
+            slides[i].style.transform = `translateX(${elements[i]}%)`;
+
+            // set opacity 1 for current
+            if(elements[i] === 0){
+
+                slides[i].style.opacity = 1;
+
+                current = slides[i].dataset.id;
+                const lis = slider.querySelectorAll('.thumbs li');
+
+                for(let k = 0; k < length; k++){
+
+                    if(lis[k].dataset.id === current){
+
+                        lis[k].className = 'active';
+                    } else {
+
+                        lis[k].className = '';
+                    }
+                }
+            } else {
+                
+                slides[i].style.opacity = 0;
+            }
+        }
+
+        ///////////////////
+        // render thumbs //
+        ///////////////////
+
+        // якщо тягнули вправо || if drag to right
+        if(shift > 0){
+            const last = thumbs.lastElementChild;
+            thumbs.prepend(last); 
+          
+            thumbs.style.transition = 'none';
+            thumbs.style.transform = `translateX(-25%)`;
+        }
+        
+        // якщо тягнули вліво || if drag to left
+        if(shift < 0){
+            const first = thumbs.firstElementChild;
+            thumbs.append(first);  
+    
+            thumbs.style.transition = 'none';
+            thumbs.style.transform = `translateX(25%)`;
+        }
+
+        setTimeout(() => {
+
+            thumbs.style.transform = `translateX(0)`;
+            thumbs.style.transition = '.5s';
+        }, 60);        
+    }
+
+    // description
+    function lightboxDesc(){
+
+    }
 }
+
+// TODO: description
+
+// 17-09-2021
