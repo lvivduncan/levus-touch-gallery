@@ -40,13 +40,6 @@
         }
     }
 
-    // // примусове розмноження
-    // for(let slide of slides){
-
-    //     const clone = slide.cloneNode(true);
-    //     slider.append(clone);
-    // }
-
     // get new nodeList
     slides = gallery.querySelectorAll('.slides a');
 
@@ -79,13 +72,6 @@
             elements.push(i * 100);
         }
     }
-
-    // // fill array (TODO: половина з мінусом, 0 -- 0, решта з плюсом)    
-    // for (let i = -length/2 + 1; i <= length/2; i++) {
-    //    elements.push(i * 100);
-    // }
-    
-    // console.log(elements);
 
     // clone
     const origin = elements.slice(0);
