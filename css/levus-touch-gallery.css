@@ -1,30 +1,37 @@
 *,::after,::before
 {
-    margin: 0;
     padding: 0;
+    margin: 0;
     box-sizing: border-box;
 }
 
-/* for test */
-.wrapper
+html,
+body
 {
-    width: 600px;
-    margin: auto;
+    height: 100%;
 }
 
-@media(max-width:650px)
+/* for test */
+body
+{
+    padding: 100px 0;
+}
+.wrapper
+{
+    width: 800px;
+    margin: auto;
+    overflow: hidden;
+}
+
+@media(max-width: 850px)
 {
     .wrapper
     {
-        width:95%;
+        width: 95%;
     }
 }
-
-hr
-{
-    margin: 50px 0;
-}
 /* for test */
+
 
 .levus-touch-gallery
 {
@@ -42,7 +49,7 @@ hr
     right: 0;
     z-index: 4;
 
-    background: rgb(57, 55, 173);
+    background: rgb(33, 88, 47);
 }
 
 .levus-touch-gallery::before
@@ -71,40 +78,74 @@ hr
     height: auto;
 }
 
+/* слайди */
 .levus-touch-gallery .slides
 {
-    position: relative;
-    cursor: grab;
-    user-select: none;
+    overflow: hidden;
 }
 
-.levus-touch-gallery .slides a
-{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-
-    transition: .5s;
-}
-
-.levus-touch-gallery .slides a.grab
-{
-    cursor: grabbing;
-}
-
-.levus-touch-gallery .slides a picture
+.levus-touch-gallery .slides ul
 {
     display: block;
     position: relative;
 }
 
-/* .levus-touch-gallery .slides a picture img
+.levus-touch-gallery .slides li
 {
-    object-fit: cover;
-    pointer-events: none;
-} */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: block;
+    transition: .5s;
+}
 
+.levus-touch-gallery .slides li a
+{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /**/
+    text-decoration: none;
+    color: #fff;
+}
+
+/* тумбіки */
+.levus-touch-gallery .thumbs
+{
+    overflow: hidden;
+}
+
+.levus-touch-gallery .thumbs ul
+{
+    display: block; /* про всяк випадок */
+    position: relative;
+    height: 100px;
+}
+
+.levus-touch-gallery .thumbs li
+{
+    display: block;
+    height: 100px;
+    opacity: .6;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.levus-touch-gallery .thumbs li:hover,
+.levus-touch-gallery .thumbs li.active
+{
+    opacity: 1;
+}
+
+.levus-touch-gallery .thumbs img
+{
+    height: 100%;
+    object-fit: cover;
+}
+
+/* іконка лайбоксу */
 .levus-touch-gallery .icon
 {
     width: 36px;
@@ -137,71 +178,7 @@ hr
     opacity: 0;
 }
 
-.levus-touch-gallery .thumbs
-{
-    overflow: hidden;
-    height: 100px;
-    position: relative;
-}
-
-@media(max-width:776px)
-{
-    .levus-touch-gallery .thumbs
-    {
-        display: none;
-    }
-}
-
-.levus-touch-gallery .thumbs img
-{
-    display: block;
-    cursor: pointer;
-    height: 100px;
-    width: calc(100% / 6);
-
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    object-fit: cover;
-
-    border: 4px solid #fff;
-    border-width: 4px 2px;
-
-    /* transition: .5s; */
-
-    transition: .05s;
-}
-
-.levus-touch-gallery .dots
-{
-    display: none;
-}
-
-@media(max-width:776px)
-{
-    .levus-touch-gallery .dots
-    {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-        padding: 15px 0;
-    }
-    .levus-touch-gallery .dots li
-    {
-        display: block;
-        width: 16px;
-        height: 16px;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000000' viewBox='0 0 16 16'%3E%3Cpath d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z'/%3E%3C/svg%3E");
-        background-size: cover;
-        cursor: pointer;
-    }
-    .levus-touch-gallery .dots li.active
-    {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000000' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='8'/%3E%3C/svg%3E");
-    }
-}
+/**/
 
 #levus-lightbox
 {
@@ -239,6 +216,8 @@ hr
     display: flex;
     align-items: center;
     justify-content: center;
+
+    padding: 15px;
 }
 
 #levus-lightbox.active picture
@@ -272,12 +251,18 @@ hr
 #levus-lightbox::after
 {
     content: '';
-    width: 32px;
-    height: 32px;
+    width: 18px;
+    height: 18px;
     position: absolute;
-    top: 30px;
-    right: 30px;
+    top: 10px;
+    right: 10px;
     z-index: 3;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath d='M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z'/%3E%3C/svg%3E");
     background-size: cover;
+}
+
+/**/
+.levus-touch-gallery a.grab
+{
+    cursor: grabbing;
 }
