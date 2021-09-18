@@ -181,8 +181,6 @@ for(let slider of levusSlider){
     // клік на тумбік
     thumbs.addEventListener('click', event => {
 
-        // TODO: замінити на this?
-
         const id = event.target.parentNode.dataset.id;
 
         // якщо поточний слайд має номер більший за номер тумбіка
@@ -643,4 +641,4 @@ for(let slider of levusSlider){
     }
 }
 
-// 17-09-2021
+// 18-09-2021
