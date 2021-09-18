@@ -4,11 +4,11 @@
     position: relative;
 }
 
-.levus-touch-gallery, .levus-touch-gallery * {
+/* .levus-touch-gallery, .levus-touch-gallery * {
     padding: 0 !important;
     margin: 0 !important;
     box-sizing: border-box !important;
-}
+} */
 
 .levus-touch-gallery::after
 {
@@ -59,6 +59,7 @@
 {
     display: block;
     position: relative;
+    margin: 0; /* bugfix */
 }
 
 .levus-touch-gallery .slides li
