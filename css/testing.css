@@ -1,0 +1,33 @@
+*,::after,::before
+{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html,
+body
+{
+    height: 100%;
+}
+
+/* for test */
+body
+{
+    padding: 100px 0;
+}
+.wrapper
+{
+    width: 800px;
+    margin: auto;
+    overflow: hidden;
+}
+
+@media(max-width: 850px)
+{
+    .wrapper
+    {
+        width: 95%;
+    }
+}
+/* for test */

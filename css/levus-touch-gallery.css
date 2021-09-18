@@ -1,42 +1,13 @@
-*,::after,::before
-{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
-html,
-body
-{
-    height: 100%;
-}
-
-/* for test */
-body
-{
-    padding: 100px 0;
-}
-.wrapper
-{
-    width: 800px;
-    margin: auto;
-    overflow: hidden;
-}
-
-@media(max-width: 850px)
-{
-    .wrapper
-    {
-        width: 95%;
-    }
-}
-/* for test */
-
-
 .levus-touch-gallery
 {
     overflow: hidden;
     position: relative;
+}
+
+.levus-touch-gallery, .levus-touch-gallery * {
+    padding: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
 }
 
 .levus-touch-gallery::after
@@ -82,7 +53,6 @@ body
 .levus-touch-gallery .slides
 {
     overflow: hidden;
-    background: gainsboro;
 }
 
 .levus-touch-gallery .slides ul
