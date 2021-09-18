@@ -4,12 +4,6 @@
     position: relative;
 }
 
-/* .levus-touch-gallery, .levus-touch-gallery * {
-    padding: 0 !important;
-    margin: 0 !important;
-    box-sizing: border-box !important;
-} */
-
 .levus-touch-gallery::after
 {
     content: '';
@@ -49,7 +43,6 @@
     height: auto;
 }
 
-/* слайди */
 .levus-touch-gallery .slides
 {
     overflow: hidden;
@@ -59,7 +52,7 @@
 {
     display: block;
     position: relative;
-    margin: 0; /* bugfix */
+    margin: 0;
 }
 
 .levus-touch-gallery .slides li
@@ -82,7 +75,6 @@
     justify-content: center;
 }
 
-/* іконка лайбоксу */
 .levus-touch-gallery .icon
 {
     width: 64px;
@@ -127,7 +119,6 @@
     opacity: 0;
 }
 
-/* тумбіки */
 .levus-touch-gallery .thumbs
 {
     overflow: hidden;
@@ -143,7 +134,7 @@
 
 .levus-touch-gallery .thumbs ul
 {
-    display: block; /* про всяк випадок */
+    display: block;
     position: relative;
     height: 100px;
 }
@@ -170,7 +161,6 @@
     object-fit: cover;
 }
 
-/* пімпочки */
 .levus-touch-gallery .dots
 {
     display: none;
@@ -191,7 +181,6 @@
         display: block;
         width: 16px;
         height: 16px;
-        /* background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000000' viewBox='0 0 16 16'%3E%3Cpath d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z'/%3E%3C/svg%3E"); */
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23eae7e7' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='8'/%3E%3C/svg%3E");
         background-size: cover;
         cursor: pointer;
@@ -201,8 +190,6 @@
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000000' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='8'/%3E%3C/svg%3E");
     }
 }
-
-/**/
 
 #levus-lightbox
 {
@@ -252,7 +239,6 @@
 #levus-lightbox picture img
 {
     max-width: 100%;
-    /* height: auto; */
     height: 100%!important;
     object-fit: cover;
 }
@@ -287,13 +273,11 @@
     background-size: cover;
 }
 
-/**/
 .levus-touch-gallery a.grab
 {
     cursor: grabbing;
 }
 
-/**/
 #levus-lightbox-desc
 {
     position: absolute;
