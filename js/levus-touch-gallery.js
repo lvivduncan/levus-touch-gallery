@@ -31,6 +31,20 @@ for(let slider of levusSlider){
     // усі картинки у слайдах || all pictures from slides
     const images = slidesUl.querySelectorAll('img');
 
+
+    // test
+    const originals = slidesUl.querySelectorAll('[data-original]')
+
+    // console.log(originals)
+
+    for(let i = 0; i < originals.length; i++){
+
+        console.log(originals[i].dataset.original) // clientHeight
+
+
+    }
+    // test
+
     // loading не можна видаляти
     // for(let i =0; i < images.length; i++){
 
@@ -264,6 +278,9 @@ for(let slider of levusSlider){
 
         // отримувати і встановити висоту картинок якщо прокрутили до слайдера
         if(hightWindow + scroll > offsetTop){
+
+            // отримуємо картинки при скролі
+            const images = slidesUl.querySelectorAll('img');
 
             setMaxHeightSlider();
         }
@@ -669,4 +686,4 @@ for(let slider of levusSlider){
     }
 }
 
-// 18-09-2021
+// 23-10-2021
