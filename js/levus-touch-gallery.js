@@ -262,11 +262,11 @@ for(let slider of levusSlider){
     });
 
     // висота блоку для слайдів
-    setMaxHeightSlider();
+    // setMaxHeightSlider();
 
     // висота блоку для слайдів
     window.addEventListener('resize', setMaxHeightSlider);
-/* 
+
     // встановлюємо висоту при скролі
     window.addEventListener('scroll', () => {
 
@@ -285,8 +285,10 @@ for(let slider of levusSlider){
             setMaxHeightSlider();
         }
     });
- */
-    window.addEventListener('scroll', setMaxHeightSlider);
+
+
+
+    // window.addEventListener('scroll', setMaxHeightSlider);
 
   
     // lightbox 
