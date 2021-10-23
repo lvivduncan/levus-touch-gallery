@@ -54,17 +54,7 @@
     display: block;
     position: relative;
     margin: 0;
-    /* min-height: 500px; */
 }
-
-/* add min-height */
-/* @media(max-width:776px)
-{
-    .levus-touch-gallery .slides ul
-    {
-        min-height: 100px;
-    }   
-} */
 
 .levus-touch-gallery .slides li
 {

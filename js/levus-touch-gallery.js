@@ -238,11 +238,13 @@ for(let slider of levusSlider){
     });
 
     // висота блоку для слайдів
-    // виклик пізно?!
     setMaxHeightSlider();
 
     // висота блоку для слайдів
     window.addEventListener('resize', setMaxHeightSlider);
+
+    // встановлюємо висоту при скролі
+    window.addEventListener('scroll', setMaxHeightSlider);
 
     // lightbox 
     document.addEventListener('pointerdown', lightboxStart);
@@ -626,9 +628,6 @@ for(let slider of levusSlider){
 
         // view desc in bottom
         document.querySelector('#levus-lightbox-desc') && lightboxDesc(current);
-
-        // test
-        // setMaxHeightSlider();
     }
 
     // description
