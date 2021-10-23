@@ -56,16 +56,16 @@
     margin: 0;
 
     /**/
-    height: 500px;    
+    /* height: 500px;     */
 }
 
-@media(max-width:776px)
+/* @media(max-width:776px)
 {
     .levus-touch-gallery .slides ul
     {
         height: 300px;
     }
-}
+} */
 
 .levus-touch-gallery .slides li
 {

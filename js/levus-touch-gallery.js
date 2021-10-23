@@ -266,7 +266,7 @@ for(let slider of levusSlider){
 
     // висота блоку для слайдів
     window.addEventListener('resize', setMaxHeightSlider);
-
+/* 
     // встановлюємо висоту при скролі
     window.addEventListener('scroll', () => {
 
@@ -285,6 +285,9 @@ for(let slider of levusSlider){
             setMaxHeightSlider();
         }
     });
+ */
+    window.addEventListener('scroll', setMaxHeightSlider);
+
   
     // lightbox 
     document.addEventListener('pointerdown', lightboxStart);
@@ -586,6 +589,9 @@ for(let slider of levusSlider){
 
     // висота блоку зі слайдами залеже від найбільшого слайду
     function setMaxHeightSlider(){
+
+        // test
+        const images = slidesUl.querySelectorAll('img');
 
         const maxHeight = Math.max(...[...images].map(image => image.clientHeight));
 
