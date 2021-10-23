@@ -1,8 +1,5 @@
 // 16-09-2021
 
-// debug
-// document.querySelectorAll('.levus-touch-gallery img').forEach(item => item.addEventListener('load', event => console.log(event)));
-
 // усі галереї
 const levusSlider = document.querySelectorAll('.levus-touch-gallery'); 
 
@@ -32,35 +29,6 @@ for(let slider of levusSlider){
 
     // усі картинки у слайдах || all pictures from slides
     const images = slidesUl.querySelectorAll('img');
-
-
-    // for(let i = 0; i < images.length; i++){
-
-    //     images[i].addEventListener('load', event => {
-
-    //         console.log(event)
-    //     });
-
-    // }
-
-    // test
-    const originals = slidesUl.querySelectorAll('[data-original]')
-
-    // console.log(originals)
-
-    for(let i = 0; i < originals.length; i++){
-
-        console.log(originals[i].dataset.original) // clientHeight
-
-
-    }
-    // test
-
-    // loading не можна видаляти
-    // for(let i =0; i < images.length; i++){
-
-    //     images[i].removeAttribute('loading');
-    // }
 
     // кількість слайдів || quantity slides
     const length = slides.length;
@@ -578,29 +546,11 @@ for(let slider of levusSlider){
 
     // висота блоку зі слайдами залеже від найбільшого слайду
     function setMaxHeightSlider(){
-
-        // const images = slidesUl.querySelectorAll('img');
-
-        // "рідна" висота
-        // const maxHeight = Math.max(...[...images].map(image => image.clientHeight));
         
         // беремо висоту з дата-атрибута, бо використовується блокуюча тулза -- loading="lazy"
         const dataHeight = Math.max(...[...images].map(image => image.dataset.height));
 
         slidesUl.style.height = `${dataHeight/2}px`;
-
-        // console.log('maxHeight: ', maxHeight, 'dataHeight: ', dataHeight)
-
-        // // має виводити максимальну висоту ... але є проблема з визначенням
-        // // якщо не визначило розмір безпосередньо, то примусово взяти з дата-атрибута
-        // if(maxHeight !== 0){
-
-        //     slidesUl.style.height = `${maxHeight}px`;
-            
-        // } else {
-            
-        //     slidesUl.style.height = `${dataHeight}px`;
-        // }
     }
 
     // перемальовка елементів || render slides and thumbs

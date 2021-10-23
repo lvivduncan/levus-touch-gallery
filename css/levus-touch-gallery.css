@@ -54,19 +54,10 @@
 {
     display: block;
     position: relative;
-    margin: 0;
 
-    /**/
-    /* height: 500px;     */
+    /* fix conflict */
+    margin: 0!important;
 }
-
-/* @media(max-width:776px)
-{
-    .levus-touch-gallery .slides ul
-    {
-        height: 300px;
-    }
-} */
 
 .levus-touch-gallery .slides li
 {
@@ -89,44 +80,6 @@
     align-items: center;
     justify-content: center;
 }
-
-
-
-/* test aspect-ratio */
-.levus-touch-gallery .slides li .picture
-{
-    display: block;
-    width: 100%;
-    height: auto;
-    position: relative;
-    overflow: hidden;
-    padding-top: 56.25%;
-}
-
-.levus-touch-gallery .slides li .picture picture
-{
-    display: block;
-    width: 100%;
-    max-height: 100%;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-
-.levus-touch-gallery .slides li .picture picture img
-{
-    /* width: 100%!important; */
-    height: 100%!important;
-    object-fit: cover;
-}
-/* test aspect-ratio */
-
-
-
-
-
 
 .levus-touch-gallery .icon
 {
