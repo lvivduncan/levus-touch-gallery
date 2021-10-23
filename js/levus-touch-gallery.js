@@ -27,6 +27,11 @@ for(let slider of levusSlider){
     // усі картинки у слайдах || all pictures from slides
     const images = slidesUl.querySelectorAll('img');
 
+    for(let i =0; i < images.length; i++){
+
+        images[i].removeAttribute('loading');
+    }
+
     // кількість слайдів || quantity slides
     const length = slides.length;
 
