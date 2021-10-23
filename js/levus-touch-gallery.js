@@ -32,6 +32,15 @@ for(let slider of levusSlider){
     const images = slidesUl.querySelectorAll('img');
 
 
+    for(let i = 0; i < images.length; i++){
+
+        images[i].addEventListener('load', event => {
+
+            console.log(event)
+        });
+
+    }
+
     // test
     const originals = slidesUl.querySelectorAll('[data-original]')
 
@@ -262,7 +271,7 @@ for(let slider of levusSlider){
     });
 
     // висота блоку для слайдів
-    // setMaxHeightSlider();
+    setMaxHeightSlider();
 
     // висота блоку для слайдів
     window.addEventListener('resize', setMaxHeightSlider);
@@ -280,7 +289,7 @@ for(let slider of levusSlider){
         if(hightWindow + scroll > offsetTop){
 
             // отримуємо картинки при скролі
-            const images = slidesUl.querySelectorAll('img');
+            // const images = slidesUl.querySelectorAll('img');
 
             setMaxHeightSlider();
         }
