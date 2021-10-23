@@ -238,6 +238,7 @@ for(let slider of levusSlider){
     });
 
     // висота блоку для слайдів
+    // виклик пізно?!
     setMaxHeightSlider();
 
     // висота блоку для слайдів
@@ -545,6 +546,8 @@ for(let slider of levusSlider){
     function setMaxHeightSlider(){
 
         const maxHeight = Math.max(...[...images].map(image => image.clientHeight));
+
+        // має виводити максимальну висоту ... але є проблема з визначенням
         slidesUl.style.height = `${maxHeight}px`;
     }
 
@@ -623,6 +626,9 @@ for(let slider of levusSlider){
 
         // view desc in bottom
         document.querySelector('#levus-lightbox-desc') && lightboxDesc(current);
+
+        // test
+        // setMaxHeightSlider();
     }
 
     // description
