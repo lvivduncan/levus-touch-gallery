@@ -1,8 +1,8 @@
 // 16-09-2021
 
+// debug
 document.querySelectorAll('.levus-touch-gallery img').forEach(item => item.addEventListener('load', event => console.log(event)));
 
-/* 
 // усі галереї
 const levusSlider = document.querySelectorAll('.levus-touch-gallery'); 
 
@@ -14,7 +14,6 @@ for(let slider of levusSlider){
 
     // оримуємо відступ згори до слайдера -- отримати розміри картинок тільки тоді, коли проскролять
     const offsetTop = slider.offsetTop;
-
 
     /////////////////////////////
     // ховаємо до завантаження // 
@@ -35,14 +34,14 @@ for(let slider of levusSlider){
     const images = slidesUl.querySelectorAll('img');
 
 
-    for(let i = 0; i < images.length; i++){
+    // for(let i = 0; i < images.length; i++){
 
-        images[i].addEventListener('load', event => {
+    //     images[i].addEventListener('load', event => {
 
-            console.log(event)
-        });
+    //         console.log(event)
+    //     });
 
-    }
+    // }
 
     // test
     const originals = slidesUl.querySelectorAll('[data-original]')
@@ -279,24 +278,24 @@ for(let slider of levusSlider){
     // висота блоку для слайдів
     window.addEventListener('resize', setMaxHeightSlider);
 
-    // встановлюємо висоту при скролі
-    window.addEventListener('scroll', () => {
+    // // встановлюємо висоту при скролі
+    // window.addEventListener('scroll', () => {
 
-        // розмір вікна
-        const hightWindow = document.documentElement.clientHeight;
+    //     // розмір вікна
+    //     const hightWindow = document.documentElement.clientHeight;
 
-        // відстань прокрутки
-        const scroll = window.pageYOffset;
+    //     // відстань прокрутки
+    //     const scroll = window.pageYOffset;
 
-        // отримувати і встановити висоту картинок якщо прокрутили до слайдера
-        if(hightWindow + scroll > offsetTop){
+    //     // отримувати і встановити висоту картинок якщо прокрутили до слайдера
+    //     if(hightWindow + scroll > offsetTop){
 
-            // отримуємо картинки при скролі
-            // const images = slidesUl.querySelectorAll('img');
+    //         // отримуємо картинки при скролі
+    //         // const images = slidesUl.querySelectorAll('img');
 
-            setMaxHeightSlider();
-        }
-    });
+    //         setMaxHeightSlider();
+    //     }
+    // });
 
 
 
@@ -604,13 +603,28 @@ for(let slider of levusSlider){
     // висота блоку зі слайдами залеже від найбільшого слайду
     function setMaxHeightSlider(){
 
-        // test
         const images = slidesUl.querySelectorAll('img');
 
-        const maxHeight = Math.max(...[...images].map(image => image.clientHeight));
+        // "рідна" висота
+        // const maxHeight = Math.max(...[...images].map(image => image.clientHeight));
+        
+        // беремо висоту з дата-атрибута, бо використовується блокуюча тулза -- loading="lazy"
+        const dataHeight = Math.max(...[...images].map(image => image.dataset.height));
 
-        // має виводити максимальну висоту ... але є проблема з визначенням
-        slidesUl.style.height = `${maxHeight}px`;
+        slidesUl.style.height = `${dataHeight/2}px`;
+
+        // console.log('maxHeight: ', maxHeight, 'dataHeight: ', dataHeight)
+
+        // // має виводити максимальну висоту ... але є проблема з визначенням
+        // // якщо не визначило розмір безпосередньо, то примусово взяти з дата-атрибута
+        // if(maxHeight !== 0){
+
+        //     slidesUl.style.height = `${maxHeight}px`;
+            
+        // } else {
+            
+        //     slidesUl.style.height = `${dataHeight}px`;
+        // }
     }
 
     // перемальовка елементів || render slides and thumbs
@@ -705,5 +719,5 @@ for(let slider of levusSlider){
         desc.innerHTML = alts[i];
     }
 }
- */
+
 // 23-10-2021
