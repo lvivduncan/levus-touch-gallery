@@ -1,5 +1,8 @@
 // 16-09-2021
 
+document.querySelectorAll('.levus-touch-gallery img').forEach(item => item.addEventListener('load', event => console.log(event)));
+
+/* 
 // усі галереї
 const levusSlider = document.querySelectorAll('.levus-touch-gallery'); 
 
@@ -702,5 +705,5 @@ for(let slider of levusSlider){
         desc.innerHTML = alts[i];
     }
 }
-
+ */
 // 23-10-2021
