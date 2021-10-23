@@ -9,6 +9,10 @@ const body = document.getElementsByTagName('body')[0];
 // every slider
 for(let slider of levusSlider){
 
+    // оримуємо відступ згори до слайдера -- отримати розміри картинок тільки тоді, коли проскролять
+    const offsetTop = slider.offsetTop;
+
+
     /////////////////////////////
     // ховаємо до завантаження // 
     /////////////////////////////
@@ -27,10 +31,11 @@ for(let slider of levusSlider){
     // усі картинки у слайдах || all pictures from slides
     const images = slidesUl.querySelectorAll('img');
 
-    for(let i =0; i < images.length; i++){
+    // loading не можна видаляти
+    // for(let i =0; i < images.length; i++){
 
-        images[i].removeAttribute('loading');
-    }
+    //     images[i].removeAttribute('loading');
+    // }
 
     // кількість слайдів || quantity slides
     const length = slides.length;
@@ -249,8 +254,21 @@ for(let slider of levusSlider){
     window.addEventListener('resize', setMaxHeightSlider);
 
     // встановлюємо висоту при скролі
-    window.addEventListener('scroll', setMaxHeightSlider);
+    window.addEventListener('scroll', () => {
 
+        // розмір вікна
+        const hightWindow = document.documentElement.clientHeight;
+
+        // відстань прокрутки
+        const scroll = window.pageYOffset;
+
+        // отримувати і встановити висоту картинок якщо прокрутили до слайдера
+        if(hightWindow + scroll > offsetTop){
+
+            setMaxHeightSlider();
+        }
+    });
+  
     // lightbox 
     document.addEventListener('pointerdown', lightboxStart);
     document.addEventListener('pointermove', lightboxMove);
