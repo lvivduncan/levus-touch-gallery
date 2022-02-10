@@ -20,16 +20,19 @@ for (let slider of levusSlider) {
 	// список з великими слайдами
 	const slidesUl = slider.querySelector(".slides ul")
 
-	// ширина слайдера, оновлюємо з ресайзом та при запуску
-	let slidesUlwidth = getComputedStyle(slidesUl).width
-
-	// console.log("225: ", getComputedStyle(slidesUl).width)
-
 	// усі слайди || all slides
 	const slides = slidesUl.querySelectorAll("li")
 
 	// усі картинки у слайдах || all pictures from slides
 	const images = slidesUl.querySelectorAll("img")
+
+	// висота блоку для слайдів
+	setMaxHeightSlider()
+
+	// висота блоку для слайдів
+	window.addEventListener("resize", () => {
+		setMaxHeightSlider()
+	})
 
 	// кількість слайдів || quantity slides
 	const length = slides.length
@@ -220,15 +223,6 @@ for (let slider of levusSlider) {
 
 			render()
 		}
-	})
-
-	// висота блоку для слайдів
-	setMaxHeightSlider()
-
-	// висота блоку для слайдів
-	window.addEventListener("resize", () => {
-		console.log(1)
-		setMaxHeightSlider()
 	})
 
 	// lightbox
@@ -485,14 +479,36 @@ for (let slider of levusSlider) {
 		}
 	}
 
+	// aspectRatio = width / height
+	// widthT = heightT * aspectRatio
+	// heightT = widthT / aspectRatio
+
 	// висота блоку зі слайдами залеже від найбільшого слайду
 	function setMaxHeightSlider() {
-		// беремо висоту з дата-атрибута, бо використовується блокуюча тулза -- loading="lazy"
+		// беремо висоту
 		const dataHeight = Math.max(
-			...[...images].map((image) => image.dataset.height)
+			...[...images].map((image) => {
+				// console.log(image.dataset.height, "x", image.dataset.width)
+				return image.dataset.height
+			})
 		)
+		// ширину
+		const dataWidth = Math.max(
+			...[...images].map((image) => {
+				return image.dataset.width
+			})
+		)
+		console.log(dataHeight, " x ", dataWidth)
 
-		slidesUl.style.height = `${dataHeight / 2}px`
+		let resultHeight = dataHeight
+
+		if (dataHeight < dataWidth) {
+			// якщо висота вища за ширину (вертикальне фото)
+
+			resultHeight = dataWidth / (dataWidth / dataHeight)
+		}
+
+		slidesUl.style.height = `${resultHeight}px`
 	}
 
 	// перемальовка елементів || render slides and thumbs
