@@ -70,7 +70,7 @@
     height: 100%;
     display: block;
     transition: .5s;
-    border: 1px solid #fff;
+    /* border: 1px solid #fff; */
 }
 
 .levus-touch-gallery .slides li a
