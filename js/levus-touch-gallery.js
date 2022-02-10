@@ -26,12 +26,16 @@ for (let slider of levusSlider) {
 	// усі картинки у слайдах || all pictures from slides
 	const images = slidesUl.querySelectorAll("img")
 
+	// ширине батьківського блоку (враппера)
+	let parentWidth = parseInt(getComputedStyle(slider).width)
+
 	// висота блоку для слайдів
-	setMaxHeightSlider()
+	setMaxHeightSlider(parentWidth)
 
 	// висота блоку для слайдів
 	window.addEventListener("resize", () => {
-		setMaxHeightSlider()
+		parentWidth = parseInt(getComputedStyle(slider).width)
+		setMaxHeightSlider(parentWidth)
 	})
 
 	// кількість слайдів || quantity slides
@@ -484,7 +488,10 @@ for (let slider of levusSlider) {
 	// heightT = widthT / aspectRatio
 
 	// висота блоку зі слайдами залеже від найбільшого слайду
-	function setMaxHeightSlider() {
+	function setMaxHeightSlider(parentWidth) {
+		//
+		// parentWidth -- ширина парента
+
 		// беремо висоту
 		const dataHeight = Math.max(
 			...[...images].map((image) => {
@@ -498,17 +505,8 @@ for (let slider of levusSlider) {
 				return image.dataset.width
 			})
 		)
-		console.log(dataHeight, " x ", dataWidth)
 
-		let resultHeight = dataHeight
-
-		if (dataHeight < dataWidth) {
-			// якщо висота вища за ширину (вертикальне фото)
-
-			resultHeight = dataWidth / (dataWidth / dataHeight)
-		}
-
-		slidesUl.style.height = `${resultHeight}px`
+		slidesUl.style.height = `${(parentWidth / dataHeight) * 500}px`
 	}
 
 	// перемальовка елементів || render slides and thumbs
@@ -529,9 +527,11 @@ for (let slider of levusSlider) {
 
 				for (let k = 0; k < length; k++) {
 					if (lis[k].dataset.id === current) {
-						lis[k].className = "active"
+						// lis[k].className = "active"
+						lis[k].classList.add("active")
 					} else {
-						lis[k].className = ""
+						// lis[k].className = ""
+						lis[k].classList.remove("active")
 					}
 				}
 			} else {
@@ -571,9 +571,11 @@ for (let slider of levusSlider) {
 		/////////////////
 		const lis = slider.querySelectorAll(".dots li")
 		for (let i = 0; i < length; i++) {
-			lis[i].className = ""
+			// lis[i].className = ""
+			lis[i].classList.remove("active")
 		}
-		lis[current].className = "active"
+		// lis[current].className = "active"
+		lis[current].classList.add("active")
 
 		// view desc in bottom
 		document.querySelector("#levus-lightbox-desc") && lightboxDesc(current)

@@ -298,3 +298,34 @@
     text-align: center;
     z-index: 4;
 }
+
+/* test */
+/* .picture
+{
+    height: auto;
+    padding-top: 56.25%;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.picture picture
+{
+    bottom: 0px;
+    display: block;
+    left: 0px;
+    max-height: 100%;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 100%;
+}
+
+.picture picture img
+{
+    vertical-align: middle;
+
+    object-fit: cover;
+    height: 100% !important;
+    width: 100% !important;
+} */
