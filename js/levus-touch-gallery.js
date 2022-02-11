@@ -1512,13 +1512,6 @@ for (let slider of levusSlider) {
 	let start, finish, current
 	let shift = 1
 
-	// елементи лайтбокса
-	let insertData = ""
-
-	// create lightbox block
-	const lightbox = document.createElement("div")
-	lightbox.id = "levus-lightbox"
-
 	// якщо кількість більше 4, то робимо грід, якщо менше -- центруємо
 	if (length > 4) {
 		thumbs.style.display = "grid"
@@ -1639,8 +1632,6 @@ for (let slider of levusSlider) {
 
 		// where it was pressed
 		start = event.pageX
-
-		// console.log('scrollStart')
 	}
 
 	// рух мишкою
@@ -1731,10 +1722,8 @@ for (let slider of levusSlider) {
 
 				for (let k = 0; k < length; k++) {
 					if (lis[k].dataset.id === current) {
-						// lis[k].className = "active"
 						lis[k].classList.add("active")
 					} else {
-						// lis[k].className = ""
 						lis[k].classList.remove("active")
 					}
 				}
@@ -1775,13 +1764,11 @@ for (let slider of levusSlider) {
 		/////////////////
 		const lis = slider.querySelectorAll(".dots li")
 		for (let i = 0; i < length; i++) {
-			// lis[i].className = ""
 			lis[i].classList.remove("active")
 		}
-		// lis[current].className = "active"
-		lis[current].classList.add("active")
 
-		// view desc in bottom
-		document.querySelector("#levus-lightbox-desc") && lightboxDesc(current)
+		lis[current].classList.add("active")
 	}
 }
+
+// 11-02-2022
