@@ -112,13 +112,13 @@
     transform: scale(1.2);
 }
 
-@media(max-width:776px)
+/* @media(max-width:776px)
 {
     .levus-touch-gallery .icon
     {
         opacity: 0;
     }
-}
+} */
 
 .levus-touch-gallery .icon.hide
 {
