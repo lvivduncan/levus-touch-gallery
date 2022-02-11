@@ -1435,13 +1435,37 @@ for (let slider of levusSlider) {
 	// список з великими слайдами
 	const slidesUl = slider.querySelector(".slides ul")
 
+	////////////////////////////////////////////////////////
+	// якщо мобільний девайс -- додати стрілки для скролу //
+	////////////////////////////////////////////////////////
+
+	const left = document.createElement("span")
+	left.className = "left"
+
+	const right = document.createElement("span")
+	right.className = "right"
+
+	if (checkTouchDevice()) {
+		slidesUl.append(left, right)
+	}
+
+	// left click
+	left.addEventListener("click", () => {
+		sliderLeft()
+	})
+
+	// right click
+	right.addEventListener("click", () => {
+		sliderRight()
+	})
+
 	// усі слайди || all slides
 	const slides = slidesUl.querySelectorAll("li")
 
 	// усі картинки у слайдах || all pictures from slides
 	const images = slidesUl.querySelectorAll("img")
 
-	// ширине батьківського блоку (враппера)
+	// ширинa батьківського блоку (враппера)
 	let parentWidth = parseInt(getComputedStyle(slider).width)
 
 	// висота блоку для слайдів
@@ -1568,11 +1592,14 @@ for (let slider of levusSlider) {
 		// disable drag image (for firefox)
 		slide.addEventListener("dragstart", (event) => event.preventDefault())
 
-		slide.addEventListener("pointerdown", sliderStart)
-		slide.addEventListener("pointermove", sliderMove)
-		slide.addEventListener("pointerup", sliderEnd)
-		slide.addEventListener("pointercancel", sliderEnd)
-		slide.addEventListener("pointerleave", sliderEnd)
+		// якщо мобільний девайс -- відключити свайпи
+		if (!checkTouchDevice()) {
+			slide.addEventListener("pointerdown", sliderStart)
+			slide.addEventListener("pointermove", sliderMove)
+			slide.addEventListener("pointerup", sliderEnd)
+			slide.addEventListener("pointercancel", sliderEnd)
+			slide.addEventListener("pointerleave", sliderEnd)
+		}
 
 		// disable click
 		slide.addEventListener("click", (event) => event.preventDefault())
@@ -1694,6 +1721,22 @@ for (let slider of levusSlider) {
 		}
 	}
 
+	// to left
+	function sliderLeft() {
+		const first = elements.pop()
+		elements.unshift(first)
+
+		render()
+	}
+
+	// to right
+	function sliderRight() {
+		const last = elements.shift()
+		elements.push(last)
+
+		render()
+	}
+
 	// висота блоку зі слайдами залеже від найбільшого слайду
 	function setMaxHeightSlider(parentWidth) {
 		// максимальна висота
@@ -1771,4 +1814,11 @@ for (let slider of levusSlider) {
 	}
 }
 
+function checkTouchDevice() {
+	return (
+		"ontouchstart" in window ||
+		navigator.maxTouchPoints > 0 ||
+		navigator.msMaxTouchPoints > 0
+	)
+}
 // 11-02-2022
