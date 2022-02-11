@@ -85,14 +85,6 @@ for (let slider of levusSlider) {
 
 	slider.append(dots)
 
-	////////////
-	// іконка //
-	////////////
-
-	const icon = document.createElement("div")
-	icon.className = "icon"
-	slider.prepend(icon)
-
 	//////////////////////////
 	// перемінні для свайпу //
 	//////////////////////////
@@ -228,7 +220,7 @@ for (let slider of levusSlider) {
 			render()
 		}
 	})
-
+	/* 
 	// lightbox
 	document.addEventListener("pointerdown", lightboxStart)
 	document.addEventListener("pointermove", lightboxMove)
@@ -312,7 +304,7 @@ for (let slider of levusSlider) {
 			render()
 		}
 	})
-
+ */
 	///////////////
 	// functions //
 	///////////////
@@ -390,7 +382,7 @@ for (let slider of levusSlider) {
 			this.querySelector("a").className = ""
 		}
 	}
-
+	/* 
 	//////////////
 	// лайтбокс //
 	//////////////
@@ -416,13 +408,11 @@ for (let slider of levusSlider) {
 
 				// if to left
 				if (finish - start < 0) {
-					// shift = (finish - start) / 2;
 					shift = finish - start
 				}
 
 				// if to right
 				if (finish - start > 0) {
-					// shift = Math.abs(start - finish) / 2;
 					shift = Math.abs(start - finish)
 				}
 
@@ -482,28 +472,12 @@ for (let slider of levusSlider) {
 			pictures[i].style.opacity = opacity
 		}
 	}
-
-	// aspectRatio = width / height
-	// widthT = heightT * aspectRatio
-	// heightT = widthT / aspectRatio
-
+ */
 	// висота блоку зі слайдами залеже від найбільшого слайду
 	function setMaxHeightSlider(parentWidth) {
-		//
-		// parentWidth -- ширина парента
-
-		// беремо висоту
+		// максимальна висота
 		const dataHeight = Math.max(
-			...[...images].map((image) => {
-				// console.log(image.dataset.height, "x", image.dataset.width)
-				return image.dataset.height
-			})
-		)
-		// ширину
-		const dataWidth = Math.max(
-			...[...images].map((image) => {
-				return image.dataset.width
-			})
+			...[...images].map((image) => image.dataset.height)
 		)
 
 		slidesUl.style.height = `${(parentWidth / dataHeight) * 500}px`
@@ -580,7 +554,7 @@ for (let slider of levusSlider) {
 		// view desc in bottom
 		document.querySelector("#levus-lightbox-desc") && lightboxDesc(current)
 	}
-
+	/* 
 	// description
 	function lightboxDesc(i) {
 		const desc = document.querySelector("#levus-lightbox-desc")
@@ -594,4 +568,5 @@ for (let slider of levusSlider) {
 
 		desc.innerHTML = alts[i]
 	}
+	 */
 }
