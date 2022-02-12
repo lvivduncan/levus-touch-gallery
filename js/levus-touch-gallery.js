@@ -1744,7 +1744,15 @@ for (let slider of levusSlider) {
 			...[...images].map((image) => image.dataset.height)
 		)
 
-		slidesUl.style.height = `${(parentWidth / dataHeight) * 500}px`
+		const dataWidth = Math.max(
+			...[...images].map((image) => image.dataset.width)
+		)
+
+		slidesUl.style.height = `${determineNewHeight(
+			dataHeight,
+			dataWidth,
+			parentWidth
+		)}px`
 	}
 
 	// перемальовка елементів || render slides and thumbs
@@ -1814,6 +1822,7 @@ for (let slider of levusSlider) {
 	}
 }
 
+// check mobile devices
 function checkTouchDevice() {
 	return (
 		"ontouchstart" in window ||
@@ -1821,4 +1830,10 @@ function checkTouchDevice() {
 		navigator.msMaxTouchPoints > 0
 	)
 }
-// 11-02-2022
+
+// https://ourcodeworld.com/articles/read/1455/how-to-calculate-the-height-of-an-image-with-a-custom-width-preserving-the-aspect-ratio-with-javascript
+function determineNewHeight(originalHeight, originalWidth, newWidth) {
+	return (originalHeight / originalWidth) * newWidth
+}
+
+// 12-02-2022
