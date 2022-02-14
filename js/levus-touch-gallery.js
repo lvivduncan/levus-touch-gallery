@@ -1723,16 +1723,16 @@ for (let slider of levusSlider) {
 
 	// to left
 	function sliderLeft() {
-		const first = elements.pop()
-		elements.unshift(first)
+		const last = elements.shift()
+		elements.push(last)
 
 		render()
 	}
 
 	// to right
 	function sliderRight() {
-		const last = elements.shift()
-		elements.push(last)
+		const first = elements.pop()
+		elements.unshift(first)
 
 		render()
 	}
